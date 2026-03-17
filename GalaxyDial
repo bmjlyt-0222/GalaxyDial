@@ -1,0 +1,2212 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>宇宙致电📨 · 星辰信使（心晴手帐版）</title>
+    <style>
+        /* ==================== 完整样式 ==================== */
+        :root {
+            --main-color: #ffffff;
+            --bubble-me: #91d5ff;
+            --bubble-you: #ffffff;
+            --text-color: #333;
+            --bg-image: none;
+            --blue: #40a9ff;
+            --blue-hover: #1890ff;
+            --nav-bg: rgba(255,255,255,0.95);
+            --header-bg: #ffffff;
+            --input-bg: #ffffff;
+            --page-bg: #ffffff;
+            --secondary-bg: #f5f5f5;
+            --card-bg: #ffffff;
+            --card-border: #ddd;
+            --item-hover: #f0f0f0;
+        }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Microsoft YaHei", sans-serif;
+        }
+        html, body {
+            width: 100%;
+            height: 100%;
+            background: var(--main-color);
+            color: var(--text-color);
+            overflow-x: hidden;
+            -webkit-overflow-scrolling: touch;
+            position: relative;
+        }
+        body.night-mode::after {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0);
+            pointer-events: none;
+            z-index: 5;
+            transition: background-color 0.3s;
+        }
+        body.night-mode {
+            --main-color: #121212;
+            --bubble-me: #0a4c7a;
+            --bubble-you: #2a2a2a;
+            --text-color: #e0e0e0;
+            --blue: #4d9eff;
+            --blue-hover: #2b7aff;
+            --nav-bg: #1e1e1e;
+            --header-bg: #1e1e1e;
+            --input-bg: #2d2d2d;
+            --page-bg: #1a1a1a;
+            --secondary-bg: #2a2a2a;
+            --card-bg: #2a2a2a;
+            --card-border: #444;
+            --item-hover: #333;
+        }
+        .main {
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+            height: 100vh;
+            position: relative;
+            z-index: 10;
+            background: var(--page-bg);
+            max-width: 600px;
+            margin: 0 auto;
+            border-radius: 36px 36px 32px 32px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.08),0 6px 12px rgba(0,0,0,0.05);
+            border: 1px solid rgba(255,255,255,0.5);
+            height: 700px;
+            background-size: cover;
+            background-position: center;
+        }
+        .nav {
+            height: 60px;
+            background: inherit;
+            border-bottom: 1px solid #eef2f7;
+            display: flex;
+            align-items: center;
+            padding: 0 12px;
+            justify-content: space-between;
+            flex-shrink: 0;
+        }
+        body.night-mode .nav { border-bottom-color: #3f4658; }
+        .nav-left {
+            font-size: 1.6rem;
+            font-weight: 600;
+            color: #1e3b5c;
+            cursor: pointer;
+        }
+        body.night-mode .nav-left { color: #b0c4de; }
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .nav-btn, .menu-btn {
+            background: #eef2f7;
+            border: 1px solid #dae2ec;
+            border-radius: 30px;
+            padding: 8px 16px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            color: #1e3b5c;
+            white-space: nowrap;
+        }
+        body.night-mode .nav-btn, body.night-mode .menu-btn { background: #3f4658; border-color: #5a637b; color: #cfdbf5; }
+        .menu-btn { font-size: 1.8rem; padding: 4px 16px; }
+        .menu-dropdown {
+            position: absolute;
+            top: 70px;
+            right: 16px;
+            width: 200px;
+            background: white;
+            border-radius: 20px;
+            border: 1px solid #eef2f7;
+            display: none;
+            flex-direction: column;
+            z-index: 200;
+        }
+        body.night-mode .menu-dropdown { background: #2a2f38; border-color: #3f4658; }
+        .menu-item {
+            padding: 12px 16px;
+            border-bottom: 1px solid #eef2f7;
+            cursor: pointer;
+            color: #1e3b5c;
+        }
+        body.night-mode .menu-item { color: #e0e5ec; border-bottom-color: #3f4658; }
+        .menu-item:hover { background: #f5f5f5; }
+        body.night-mode .menu-item:hover { background: #3f4658; }
+        .home-container {
+            flex: 1;
+            overflow-y: auto;
+            padding: 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            background: transparent;
+        }
+        .section-title {
+            font-size: 0.9rem;
+            color: #95adc7;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 8px;
+            padding-left: 4px;
+        }
+        .main-menu {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+        }
+        .menu-item-large {
+            background: #f8fafd;
+            border-radius: 28px;
+            padding: 20px 8px;
+            text-align: center;
+            border: 1px solid #e2eaf2;
+            cursor: pointer;
+            transition: 0.1s;
+            font-weight: 500;
+            color: #1e3b5c;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+        }
+        .menu-item-large span { font-size: 2.2rem; }
+        body.night-mode .menu-item-large { background: #363d4e; border-color: #505a70; color: #d6e2f5; }
+        .contact-list {
+            background: #f8fafd;
+            border-radius: 28px;
+            border: 1px solid #e2eaf2;
+        }
+        body.night-mode .contact-list { background: #363d4e; border-color: #505a70; }
+        .contact-item {
+            display: flex;
+            align-items: center;
+            padding: 14px 18px;
+            border-bottom: 1px solid #e2eaf2;
+            cursor: pointer;
+        }
+        .contact-item:hover { background: #eaf0f8; }
+        body.night-mode .contact-item:hover { background: #3f4658; }
+        .contact-avatar {
+            width: 48px;
+            height: 48px;
+            background: #d9e5f2;
+            margin-right: 14px;
+            border: 1px solid #b0c4de;
+            overflow: hidden;
+            border-radius: 50%;
+        }
+        .contact-avatar img { width: 100%; height: 100%; object-fit: cover; }
+        .contact-name { font-size: 1.1rem; flex: 1; }
+        .add-contact-btn {
+            background: #f8fafd;
+            border: 1px dashed #1e3b5c;
+            border-radius: 40px;
+            padding: 14px;
+            color: #1e3b5c;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            text-align: center;
+            margin-top: 8px;
+        }
+        body.night-mode .add-contact-btn { background: #363d4e; border-color: #8a9bb5; color: #cfdbf5; }
+        .add-contact-btn:hover { background: #eaf0f8; }
+        .empty-tip { text-align: center; color: #999; padding: 20px; }
+
+        /* 页面容器 */
+        .page-container {
+            height: 100%;
+            overflow-y: auto;
+            padding: 0;
+            background: var(--page-bg);
+        }
+        .page-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+            background: var(--header-bg);
+            padding: 8px 12px;
+            border-bottom: 1px solid #444;
+        }
+        .back-btn {
+            font-size: 24px;
+            cursor: pointer;
+            color: var(--blue);
+            line-height: 1;
+            margin-right: 10px;
+        }
+        .chat-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: relative;
+            background: var(--header-bg);
+            padding: 8px 12px;
+            border-bottom: 1px solid #444;
+        }
+        .chat-header-left { display: flex; align-items: center; gap: 8px; }
+        .chat-header-center {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 16px;
+            font-weight: bold;
+            color: var(--text-color);
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        .chat-header-center .avatar.small { width: 30px; height: 30px; cursor: pointer; }
+        .chat-header-right { display: flex; align-items: center; gap: 12px; }
+        .contact-selector, .add-contact-btn-small, .contact-menu-btn {
+            font-size: 24px;
+            cursor: pointer;
+            color: var(--blue);
+            line-height: 1;
+        }
+        .contact-dropdown, .contact-action-menu {
+            position: absolute;
+            top: 40px;
+            left: 0;
+            width: 180px;
+            background: var(--header-bg);
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            display: none;
+            flex-direction: column;
+            z-index: 200;
+            max-height: 300px;
+            overflow-y: auto;
+            border: 1px solid #444;
+        }
+        .contact-dropdown.active, .contact-action-menu.active { display: flex; }
+        .contact-dropdown-item, .action-item {
+            padding: 10px 12px;
+            border-bottom: 1px solid #444;
+            cursor: pointer;
+            font-size: 14px;
+            color: var(--text-color);
+        }
+        .contact-dropdown-item:hover, .action-item:hover { background: var(--secondary-bg); }
+        .contact-dropdown-item.active { background: var(--blue); color: #fff; }
+        .action-item.delete { color: #ff4d4f; }
+        .message-action-menu {
+            position: absolute;
+            background: var(--header-bg);
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            display: none;
+            flex-direction: column;
+            z-index: 300;
+            min-width: 120px;
+            border: 1px solid #444;
+        }
+        .message-action-menu.active { display: flex; }
+        .message-action-item {
+            padding: 10px 16px;
+            border-bottom: 1px solid #444;
+            cursor: pointer;
+            font-size: 14px;
+            color: var(--text-color);
+        }
+        .message-action-item:hover { background: var(--secondary-bg); }
+        .message-action-item.delete { color: #ff4d4f; }
+        .quote-bar {
+            background: var(--secondary-bg);
+            border-left: 4px solid var(--blue);
+            padding: 6px 10px;
+            margin-bottom: 5px;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-size: 13px;
+            color: var(--text-color);
+        }
+        .quote-content {
+            flex: 1;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            color: var(--text-color);
+        }
+        .quote-close {
+            cursor: pointer;
+            color: #999;
+            font-size: 16px;
+            margin-left: 8px;
+        }
+        .chat-main {
+            flex: 1;
+            min-height: 0;
+            padding: 10px;
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
+            margin-bottom: 8px;
+            scroll-behavior: auto !important;
+            background: transparent;
+        }
+        .msg-item {
+            display: flex;
+            margin-bottom: 10px;
+            gap: 8px;
+            position: relative;
+            min-height: 40px;
+        }
+        .msg-item.me { flex-direction: row-reverse; }
+        .avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            overflow: hidden;
+            flex-shrink: 0;
+            cursor: pointer;
+            border: 1px solid #444;
+        }
+        .avatar img { width: 100%; height: 100%; object-fit: cover; }
+        .avatar.small { width: 30px; height: 30px; }
+        .avatar.large { width: 100px; height: 100px; }
+        .msg-bubble {
+            max-width: 95%;
+            padding: 8px 12px;
+            border-radius: 8px;
+            font-size: 14px;
+            line-height: 1.4;
+            word-break: break-word;
+            color: var(--text-color);
+        }
+        .msg-item.me .msg-bubble { background: var(--bubble-me); }
+        .msg-item.you .msg-bubble { background: var(--bubble-you); border: 1px solid #444; }
+        .msg-time { font-size: 11px; color: #999; margin-top: 4px; }
+        .quote-indicator {
+            font-size: 12px;
+            color: #666;
+            margin-bottom: 2px;
+            border-left: 2px solid var(--blue);
+            padding-left: 4px;
+        }
+        #typingTip {
+            height: 26px;
+            line-height: 26px;
+            padding: 0 8px;
+            color: var(--text-color);
+            font-size: 12px;
+            display: none;
+            flex-shrink: 0;
+            margin-bottom: 4px;
+            background: var(--secondary-bg);
+            border-radius: 4px;
+            margin-left: 10px;
+            margin-right: 10px;
+        }
+        #typingTip .dot {
+            display: inline-block;
+            animation: dotBounce 1s infinite;
+        }
+        @keyframes dotBounce {
+            0%,100%{transform:translateY(0);}
+            50%{transform:translateY(-3px);}
+        }
+        .chat-input {
+            display: flex;
+            gap: 8px;
+            flex-shrink: 0;
+            align-items: center;
+            flex-wrap: wrap;
+            background: var(--input-bg);
+            padding: 8px 10px;
+            border-top: 1px solid #444;
+        }
+        .emoji-btn {
+            width: 36px;
+            height: 36px;
+            border-radius: 6px;
+            background: var(--input-bg);
+            color: var(--blue);
+            border: 1px solid var(--blue);
+            font-size: 16px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .emoji-panel {
+            position: absolute;
+            bottom: 110px;
+            left: 10px;
+            width: 260px;
+            max-height: 200px;
+            background: var(--header-bg);
+            border-radius: 8px;
+            padding: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            display: none;
+            flex-wrap: wrap;
+            gap: 8px;
+            z-index: 99;
+            overflow-y: auto;
+            border: 1px solid #444;
+        }
+        .emoji-panel.active { display: flex; }
+        .emoji-item {
+            width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+        .emoji-item:hover { background: var(--secondary-bg); }
+        .chat-input input {
+            flex: 1;
+            min-width: 150px;
+            padding: 10px;
+            border: 1px solid #444;
+            border-radius: 6px;
+            outline: none;
+            background: var(--input-bg) !important;
+            color: var(--text-color);
+        }
+        .btn {
+            padding: 10px 14px;
+            background: var(--blue);
+            color: #fff;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            white-space: nowrap;
+        }
+        .btn:hover { background: var(--blue-hover); }
+        .btn.small { padding: 4px 8px; font-size: 12px; }
+
+        .card-tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+        .card-tab {
+            flex: 1;
+            padding: 8px;
+            text-align: center;
+            background: var(--secondary-bg);
+            border-radius: 6px;
+            cursor: pointer;
+            color: var(--text-color);
+        }
+        .card-tab.active { background: var(--blue); color: #fff; }
+        .card-list-section { margin-top: 10px; }
+        .letter-list-box {
+            background: var(--page-bg);
+            padding: 12px;
+            border-radius: 8px;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .letter-item {
+            padding: 10px;
+            border-bottom: 1px solid #444;
+            cursor: pointer;
+            border-radius: 6px;
+        }
+        .letter-item:hover { background: var(--secondary-bg); }
+        .letter-to { font-size: 14px; font-weight: bold; color: var(--blue); }
+        .letter-time { font-size: 12px; color: #999; margin: 4px 0; }
+        .letter-content {
+            font-size: 14px;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            color: var(--text-color);
+        }
+
+        .theme-color {
+            display: flex;
+            gap: 8px;
+            margin: 10px 0;
+            flex-wrap: wrap;
+        }
+        .color-item {
+            width: 26px; height: 26px;
+            border-radius: 50%;
+            cursor: pointer;
+            border: 2px solid transparent;
+        }
+        .color-item.active { border-color: #333; }
+        .tarot-card {
+            background: var(--card-bg);
+            border: 2px solid var(--card-border);
+            border-radius: 12px;
+            padding: 15px;
+            margin-bottom: 15px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            transition: transform 0.2s;
+        }
+        .tarot-card h4 { color: var(--blue); margin-bottom: 5px; font-size: 18px; }
+        .tarot-card .number { font-size: 14px; color: #999; margin-bottom: 5px; }
+        .tarot-card .meaning { font-size: 14px; margin: 5px 0; }
+        .loading {
+            text-align: center;
+            padding: 30px;
+            color: var(--blue);
+            font-size: 16px;
+        }
+        .status-result {
+            margin-top: 10px;
+            padding: 15px;
+            background: var(--secondary-bg);
+            border-radius: 8px;
+            font-size: 14px;
+            line-height: 1.6;
+            border-left: 4px solid var(--blue);
+        }
+
+        .calendar-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 10px 0 20px;
+            padding: 0 10px;
+        }
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 8px;
+            text-align: center;
+            padding: 0 10px;
+            margin-bottom: 20px;
+        }
+        .calendar-day {
+            padding: 14px 0;
+            background: #ffffff;
+            border: 1px solid #eaeef5;
+            border-radius: 16px;
+            cursor: pointer;
+            color: #1e2b3a;
+            font-size: 1rem;
+            font-weight: 500;
+            transition: all 0.1s ease;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+        }
+        body.night-mode .calendar-day { background: #2d3548; border-color: #4a5268; color: #e0e5f0; }
+        .calendar-day.has-note { background: #40a9ff; color: #fff; border-color: #40a9ff; }
+        body.night-mode .calendar-day.has-note { background: #2b6fa8; border-color: #2b6fa8; }
+        .calendar-day.selected {
+            border: 3px solid #ffaa00;
+            box-shadow: 0 0 10px rgba(255,170,0,0.5);
+            transform: scale(1.05);
+        }
+        .calendar-weekday {
+            font-weight: 600;
+            padding: 8px 0;
+            color: #6b7a8f;
+            font-size: 0.9rem;
+        }
+        body.night-mode .calendar-weekday { color: #a3b3cc; }
+
+        .mood-card {
+            background: #ffffff;
+            border: none;
+            border-radius: 32px;
+            padding: 24px 22px;
+            margin: 10px 10px 20px;
+            box-shadow: 0 10px 30px rgba(0,40,80,0.08);
+        }
+        body.night-mode .mood-card { background: #2d3445; box-shadow: 0 10px 30px rgba(0,0,0,0.3); }
+        .mood-card .greeting {
+            font-size: 2.2rem;
+            font-weight: 600;
+            color: #1e3b5c;
+            margin-bottom: 4px;
+        }
+        body.night-mode .mood-card .greeting { color: #d0def0; }
+        .mood-card .miss-date {
+            display: flex;
+            align-items: baseline;
+            gap: 6px;
+            margin-bottom: 24px;
+            flex-wrap: wrap;
+        }
+        .miss-word { font-size: 2rem; font-weight: 500; color: #3b5e8b; }
+        body.night-mode .miss-word { color: #aac2e6; }
+        .date-text { font-size: 1.2rem; color: #8699b2; font-weight: 400; }
+        body.night-mode .date-text { color: #9aadc9; }
+        .mood-card .section { margin-bottom: 18px; }
+        .mood-card .section-title {
+            font-size: 1rem;
+            color: #6d8bb0;
+            margin-bottom: 6px;
+            font-weight: 500;
+        }
+        .mood-card .section-content {
+            background: #f2f6fc;
+            border-radius: 20px;
+            padding: 14px 18px;
+            font-size: 1.1rem;
+            color: #1e3b5c;
+            border: 1px solid #dee9f2;
+            min-height: 52px;
+        }
+        body.night-mode .mood-card .section-content { background: #3b435a; border-color: #555e78; color: #e6ecf5; }
+        .mood-card .section-content.empty { color: #b0c4de; font-style: italic; }
+        .mood-card input, .mood-card textarea, .mood-card select {
+            width: 100%;
+            padding: 14px 18px;
+            border: 1px solid #d0ddee;
+            border-radius: 20px;
+            background: #ffffff;
+            color: #1e3b5c;
+            font-size: 1rem;
+            resize: vertical;
+            appearance: none;
+        }
+        body.night-mode .mood-card input,
+        body.night-mode .mood-card textarea,
+        body.night-mode .mood-card select {
+            background: #3d455c;
+            border-color: #5f6a86;
+            color: #f0f4fc;
+        }
+        .special-line {
+            text-align: center;
+            font-size: 1.2rem;
+            color: #ed7899;
+            margin: 20px 0 10px;
+            font-weight: 400;
+        }
+        body.night-mode .special-line { color: #f6a5c1; }
+        .mood-card .btn {
+            width: 100%;
+            margin-top: 12px;
+            padding: 16px;
+            border-radius: 40px;
+            font-size: 1.2rem;
+            font-weight: 500;
+            background: #40a9ff;
+            border: none;
+            color: white;
+            box-shadow: 0 4px 8px rgba(64,169,255,0.2);
+            transition: 0.1s;
+        }
+        .mood-card .btn.small {
+            font-size: 1rem;
+            padding: 10px;
+            background: #b0c8e0;
+            color: #1e3b5c;
+        }
+        body.night-mode .mood-card .btn.small { background: #4f5b77; color: #eef3fc; }
+        .mood-card .btn:hover { background: #1890ff; }
+
+        .notification {
+            position: fixed;
+            top: 60px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--blue);
+            color: #fff;
+            padding: 12px 20px;
+            border-radius: 30px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            z-index: 1000;
+            display: none;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+            max-width: 90%;
+        }
+        .notification .close {
+            color: #fff;
+            font-size: 18px;
+            cursor: pointer;
+        }
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+        }
+        .modal-content {
+            background: var(--page-bg);
+            padding: 16px;
+            border-radius: 8px;
+            width: 90%;
+            max-width: 380px;
+            max-height: 80vh;
+            overflow-y: auto;
+            color: var(--text-color);
+        }
+        .close {
+            text-align: right;
+            cursor: pointer;
+            font-size: 18px;
+            color: var(--blue);
+        }
+        .setting-tab {
+            display: flex;
+            gap: 4px;
+            margin-bottom: 12px;
+            flex-wrap: wrap;
+        }
+        .setting-tab-btn {
+            flex: 1;
+            padding: 6px 0;
+            text-align: center;
+            background: var(--blue);
+            color: #fff;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 13px;
+            min-width: 60px;
+        }
+        .setting-tab-btn.active { background: var(--blue-hover); }
+        .setting-panel { display: none; }
+        .setting-panel.active { display: block; }
+        .input-item { margin-bottom: 12px; }
+        .input-item label {
+            display: block;
+            margin-bottom: 4px;
+            font-size: 13px;
+            color: var(--text-color);
+        }
+        .input-item input, .input-item textarea {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #444;
+            border-radius: 4px;
+            background: var(--input-bg);
+            color: var(--text-color);
+        }
+        .link {
+            text-align: center;
+            margin-top: 8px;
+            color: #666;
+            font-size: 13px;
+        }
+        .link span {
+            color: var(--blue);
+            cursor: pointer;
+        }
+        .password-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+        .password-wrapper input {
+            flex: 1;
+            padding-right: 30px;
+        }
+        .password-wrapper .toggle-pwd {
+            position: absolute;
+            right: 8px;
+            cursor: pointer;
+            color: #999;
+        }
+        @media (min-width: 768px) {
+            .nav { height: 60px; padding: 0 20px; }
+            .nav-left { font-size: 20px; }
+            .nav-btn { padding: 6px 12px; font-size: 14px; }
+            .menu-btn { font-size: 28px; }
+            .home-container { padding: 24px; max-width: 600px; margin: 0 auto; width: 100%; }
+            .chat-main { padding: 15px; }
+            .msg-bubble { max-width: 75%; }
+            .emoji-panel { bottom: 130px; left: 20px; }
+        }
+    </style>
+</head>
+<body>
+    <!-- 提示通知 -->
+    <div id="notification" class="notification" onclick="handleNotificationClick()">
+        <span id="notificationMessage">新消息</span>
+        <span class="close" onclick="event.stopPropagation(); closeNotification()">×</span>
+    </div>
+    <!-- 主容器 -->
+    <div class="main" id="main">
+        <!-- 导航栏 -->
+        <div class="nav">
+            <div class="nav-left" onclick="goHome()">宇宙致电📨</div>
+            <div class="nav-right">
+                <button class="nav-btn" onclick="enterFeature('letterList')">✉️</button>
+                <span class="menu-btn" onclick="toggleMenu()">☰</span>
+            </div>
+            <div class="menu-dropdown" id="menuDropdown">
+                <div class="menu-item" onclick="menuItemClick(1)">👤 用户信息</div>
+                <div class="menu-item" onclick="menuItemClick(2)">⚙️ 回复设置</div>
+                <div class="menu-item" onclick="menuItemClick('theme')">🎨 主题背景</div>
+            </div>
+        </div>
+
+        <!-- 主页面 -->
+        <div id="homeContainer" class="home-container">
+            <div>
+                <div class="section-title">✨ 功能</div>
+                <div class="main-menu">
+                    <div class="menu-item-large" onclick="enterFeature('chat')"><span>💬</span>聊天</div>
+                    <div class="menu-item-large" onclick="enterFeature('write')"><span>✍️</span>写信</div>
+                    <div class="menu-item-large" onclick="enterFeature('reply')"><span>📩</span>回信</div>
+                    <div class="menu-item-large" onclick="enterFeature('card')"><span>🃏</span>字卡管理</div>
+                    <div class="menu-item-large" onclick="enterFeature('stats')"><span>📊</span>统计</div>
+                    <div class="menu-item-large" onclick="enterFeature('tarot')"><span>🔮</span>塔罗占卜</div>
+                </div>
+            </div>
+            <div>
+                <div class="section-title">📌 更多</div>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+                    <div class="menu-item-large" onclick="enterFeature('calendar')"><span>📅</span>心晴手帐</div>
+                    <div class="menu-item-large" onclick="enterFeature('incoming')"><span>📨</span>来信</div>
+                </div>
+            </div>
+            <div>
+                <div class="section-title">👥 梦角</div>
+                <div id="homeContactList" class="contact-list"></div>
+                <div class="add-contact-btn" onclick="addNewChatFromHome()"><span>➕ 新增梦角</span></div>
+            </div>
+        </div>
+
+        <!-- 功能页面容器 -->
+        <div id="featurePages" style="display: none; height: 100%;">
+            <!-- 聊天页面 -->
+            <div id="chatPage" class="page-container" style="display: flex; flex-direction: column;">
+                <div class="chat-header">
+                    <div class="chat-header-left"><span class="back-btn" onclick="goHome()">←</span></div>
+                    <div class="chat-header-center" id="currentContactHeader">
+                        <div class="avatar small" onclick="viewCurrentContactAvatar()"><img id="currentContactAvatar" src="https://via.placeholder.com/40"></div>
+                        <span id="currentContactName">宇宙助手</span>
+                    </div>
+                    <div class="chat-header-right">
+                        <span class="contact-selector" onclick="toggleContactDropdown()">💭</span>
+                        <span class="add-contact-btn-small" onclick="addNewChat()">➕</span>
+                        <span class="contact-menu-btn" onclick="toggleContactActionMenu()">⋯</span>
+                    </div>
+                    <div class="contact-dropdown" id="contactDropdown"></div>
+                    <div class="contact-action-menu" id="contactActionMenu"></div>
+                </div>
+                <div id="quoteBar" class="quote-bar" style="display: none;">
+                    <span class="quote-content" id="quoteContent"></span>
+                    <span class="quote-close" onclick="clearQuote()">×</span>
+                </div>
+                <div class="chat-main" id="chatMain" onclick="hideMessageMenu()"></div>
+                <div id="typingTip">对方正在输入<span class="dot">。</span><span class="dot">。</span><span class="dot">。</span></div>
+                <div class="emoji-panel" id="emojiPanel"></div>
+                <div class="message-action-menu" id="messageActionMenu"></div>
+                <div class="chat-input">
+                    <button class="emoji-btn" onclick="toggleEmojiPanel()">😊</button>
+                    <input type="text" id="sendInput" placeholder="输入消息...">
+                    <button class="btn" id="sendBtn" onclick="sendMsg()">发送</button>
+                </div>
+            </div>
+            <!-- 写信页面 -->
+            <div id="writePage" class="page-container" style="display: none;">
+                <div class="page-header"><span class="back-btn" onclick="goHome()">←</span><h3>写信</h3></div>
+                <div class="letter-box">
+                    <div class="input-item" id="writeToBox">
+                        <input type="text" id="writeTo" placeholder="请先输入你要寄给谁（梦角）">
+                        <button class="btn" onclick="confirmWriteTo()">确认收信人</button>
+                    </div>
+                    <textarea id="letterContent" placeholder="开始写信..." style="height: 300px; display: none;"></textarea>
+                    <button class="btn" id="sendLetterBtn" style="display: none;" onclick="sendLetter()">发送信件</button>
+                </div>
+            </div>
+            <!-- 回信页面 -->
+            <div id="replyPage" class="page-container" style="display: none;">
+                <div class="page-header"><span class="back-btn" onclick="goHome()">←</span><h3>梦角回信</h3></div>
+                <div class="reply-box"><div id="replyList"></div></div>
+            </div>
+            <!-- 全部信件页面 -->
+            <div id="letterListPage" class="page-container" style="display: none;">
+                <div class="page-header"><span class="back-btn" onclick="goHome()">←</span><h3>全部信件</h3></div>
+                <div class="letter-list-box"><div id="letterList"></div></div>
+            </div>
+            <!-- 字卡管理页面 -->
+            <div id="cardPage" class="page-container" style="display: none;">
+                <div class="page-header"><span class="back-btn" onclick="goHome()">←</span><h3>字卡管理</h3></div>
+                <div class="card-box">
+                    <div class="card-tabs">
+                        <div class="card-tab active" onclick="switchCardTab('default')">默认词库</div>
+                        <div class="card-tab" onclick="switchCardTab('user')">我的字卡</div>
+                    </div>
+                    <div id="defaultCardSection" class="card-list-section">
+                        <h4>默认词库（不可删除） - 共 <span id="defaultCardCount">0</span> 张</h4>
+                        <div id="defaultCardList"></div>
+                    </div>
+                    <div id="userCardSection" class="card-list-section" style="display: none;">
+                        <h4>我的字卡 - 共 <span id="userCardCount">0</span> 张</h4>
+                        <div style="display: flex; gap: 8px; margin-bottom: 10px;">
+                            <input type="text" id="searchUserCard" placeholder="搜索字卡..." style="flex:1; padding:8px; border:1px solid var(--card-border); border-radius:4px; background:var(--input-bg); color:var(--text-color);">
+                            <button class="btn small" onclick="clearAllUserCards()" style="background:#ff4d4f; border-color:#ff4d4f;">清空所有</button>
+                        </div>
+                        <div class="input-item">
+                            <input type="text" id="cardInput" placeholder="输入字卡内容">
+                            <button class="btn small" onclick="addUserCard()">添加</button>
+                        </div>
+                        <div class="input-item">
+                            <textarea id="batchInput" placeholder="批量导入（一行一个）" rows="3"></textarea>
+                            <button class="btn small" onclick="batchImport()">批量导入</button>
+                        </div>
+                        <div class="input-item">
+                            <textarea id="jsonInput" placeholder="JSON导入字卡" rows="3"></textarea>
+                            <button class="btn small" onclick="jsonImport()">JSON导入</button>
+                            <button class="btn small" onclick="jsonExport()">JSON导出</button>
+                        </div>
+                        <div id="userCardList"></div>
+                    </div>
+                </div>
+            </div>
+            <!-- 统计页面 -->
+            <div id="statsPage" class="page-container" style="display: none;">
+                <div class="page-header"><span class="back-btn" onclick="goHome()">←</span><h3>统计</h3></div>
+                <div class="stats-box">
+                    <div class="stats-item">字卡总数：<span id="totalCard">0</span></div>
+                    <div class="stats-item">聊天总数：<span id="totalChat">0</span></div>
+                    <button class="btn" onclick="clearStats()" style="margin:8px 0;">清零统计次数</button>
+                    <div id="cardUseList"></div>
+                </div>
+            </div>
+            <!-- 主题背景页面 -->
+            <div id="themePage" class="page-container" style="display: none;">
+                <div class="page-header"><span class="back-btn" onclick="goHome()">←</span><h3>主题背景</h3></div>
+                <div class="theme-box">
+                    <h4>日夜模式</h4>
+                    <div style="margin:10px 0;"><button class="btn" onclick="switchMode('day')" id="dayModeBtn">白天模式</button><button class="btn" onclick="switchMode('night')" id="nightModeBtn" style="margin-left:8px;">夜晚模式</button></div>
+                    <h4>全局颜色</h4><div class="theme-color" id="mainColorList"></div>
+                    <h4>我的气泡色</h4><div class="theme-color" id="bubbleMeList"></div>
+                    <h4>对方气泡色</h4><div class="theme-color" id="bubbleYouList"></div>
+                    <h4>聊天头像设置（全局）</h4>
+                    <div style="margin:10px 0; display:flex; gap:10px; align-items:center;">
+                        <div><div style="margin-bottom:4px;">我的全局头像:</div><div class="avatar" onclick="changeAvatar('me')" id="myAvatarPreview"><img id="myAvatarImg" src="https://via.placeholder.com/40"></div></div>
+                        <div><div style="margin-bottom:4px;">对方默认头像:</div><div class="avatar" onclick="changeAvatar('you')" id="yourAvatarPreview"><img id="yourAvatarImg" src="https://via.placeholder.com/40"></div></div>
+                    </div>
+                    <h4>自定义背景</h4><button class="btn" onclick="setBgImage()">上传背景图片</button><button class="btn" onclick="clearBg()" style="margin-left:8px;">清除背景</button>
+                </div>
+            </div>
+            <!-- 塔罗牌页面 -->
+            <div id="tarotPage" class="page-container" style="display: none;">
+                <div class="page-header"><span class="back-btn" onclick="goHome()">←</span><h3>塔罗占卜·梦角心语</h3><button class="btn small history-btn" onclick="showTarotHistory()">📜 历史</button></div>
+                <div class="tarot-box">
+                    <div class="input-item"><label>写下你的问题：</label><textarea id="tarotQuestion" rows="3" placeholder="例如：他现在在想什么？"></textarea></div>
+                    <button class="btn" onclick="drawTarotCards()" style="width:100%; margin-bottom:15px;">🔮 抽牌 · 接收传讯</button>
+                    <div id="tarotLoading" class="loading" style="display: none;">🔮 正在抽取塔罗牌...</div>
+                    <div id="tarotResult" style="display: none;">
+                        <div class="tarot-card" id="card1"></div>
+                        <div class="tarot-card" id="card2"></div>
+                        <div class="tarot-card" id="card3"></div>
+                        <div class="tarot-card" id="cardSummary" style="background: var(--blue); color:#fff;"><h4 style="color:#fff;">深度解读·传讯·结论</h4><div id="summaryText" style="color:#fff;"></div></div>
+                        <button class="btn status-btn" onclick="showTarotStatus()">💬 解析他的心意</button>
+                        <div id="statusResult" class="status-result" style="display: none;"></div>
+                    </div>
+                </div>
+            </div>
+            <!-- 心晴手帐日历页面 -->
+            <div id="calendarPage" class="page-container" style="display: none;">
+                <div class="page-header"><span class="back-btn" onclick="goHome()">←</span><h3>心晴手帐</h3></div>
+                <div class="theme-box" style="padding:16px; background: transparent;">
+                    <div class="calendar-header">
+                        <button class="btn small" onclick="prevMonth()">◀</button>
+                        <span id="calendarYearMonth" style="font-size: 1.4rem; font-weight: 600; color:var(--blue);"></span>
+                        <button class="btn small" onclick="nextMonth()">▶</button>
+                    </div>
+                    <div class="calendar-grid" id="calendarGrid"></div>
+                    <!-- 梦角状态卡片 -->
+                    <div id="moodCard" class="mood-card" style="display: none;">
+                        <div class="greeting">GOOD MORNING</div>
+                        <div class="miss-date"><span class="miss-word">想你</span> <span class="date-text" id="selectedDateDisplay"></span></div>
+                        <div class="section">
+                            <div class="section-title">梦角</div>
+                            <div id="dreamerDisplay" class="section-content"></div>
+                            <select id="dreamerSelect" style="display: none;"></select>
+                        </div>
+                        <div class="section">
+                            <div class="section-title">梦角今日状态</div>
+                            <div id="statusDisplay" class="section-content empty">梦角今天还没有记录</div>
+                            <textarea id="statusInput" placeholder="例如：开心、忙碌、想你..." style="display: none;"></textarea>
+                        </div>
+                        <div class="section">
+                            <div class="section-title">梦角的天气</div>
+                            <div id="weatherDisplay" class="section-content">山间清爽</div>
+                            <input type="text" id="weatherInput" placeholder="例如：晴朗、小雨、山间清爽" style="display: none;">
+                        </div>
+                        <div class="section">
+                            <div class="section-title">想说的话（从字卡选取）</div>
+                            <div id="thoughtsDisplay" class="section-content">暂无</div>
+                            <div style="display: flex; gap: 5px;">
+                                <textarea id="thoughtsInput" placeholder="想说的话..." style="display: none; flex:1;"></textarea>
+                                <button id="pickThoughtBtn" class="btn small" style="display: none;" onclick="pickRandomCard()">🎲 随机字卡</button>
+                            </div>
+                        </div>
+                        <div class="special-line" id="specialLine">每一天都因为有你而特别 ❤️</div>
+                        <button class="btn" id="editMoodBtn" onclick="enterEditMode()">✏️ 记录今天</button>
+                        <button class="btn" id="saveMoodBtn" onclick="saveMood()" style="display: none;">✔ 保存记录</button>
+                        <button class="btn small" id="cancelEditBtn" onclick="cancelEdit()" style="display: none; margin-top: 5px;">取消</button>
+                    </div>
+                </div>
+            </div>
+            <!-- 主动来信页面 -->
+            <div id="incomingPage" class="page-container" style="display: none;">
+                <div class="page-header"><span class="back-btn" onclick="goHome()">←</span><h3>主动来信 📨</h3></div>
+                <div class="letter-list-box" id="incomingList"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 塔罗历史模态框 -->
+    <div class="history-modal" id="tarotHistoryModal">
+        <div class="modal-content">
+            <div class="close" onclick="closeTarotHistory()">×</div>
+            <h3>塔罗占卜历史</h3>
+            <div id="tarotHistoryList"></div>
+        </div>
+    </div>
+    <!-- 头像大图查看弹窗 -->
+    <div class="modal" id="avatarViewModal">
+        <div class="modal-content" style="text-align:center;">
+            <div class="close" onclick="closeAvatarView()">×</div>
+            <h3 id="avatarViewName">宇宙助手</h3>
+            <div class="avatar large" style="margin:15px auto;"><img id="avatarViewImg" src="https://via.placeholder.com/100"></div>
+            <button class="btn" onclick="changeCurrentContactAvatar()" style="margin-top:10px;">更换头像</button>
+        </div>
+    </div>
+    <!-- 信件详情弹窗 -->
+    <div class="modal" id="letterDetailModal">
+        <div class="modal-content">
+            <div class="close" onclick="closeLetterDetail()">× 返回</div>
+            <h3 id="letterDetailTitle"></h3>
+            <div class="letter-time" id="letterDetailTime"></div>
+            <div class="letter-detail-content" id="letterDetailContent"></div>
+        </div>
+    </div>
+    <!-- 主动来信详情弹窗 -->
+    <div class="modal" id="incomingDetailModal">
+        <div class="modal-content">
+            <div class="close" onclick="closeIncomingDetail()">× 返回</div>
+            <h3 id="incomingDetailTitle"></h3>
+            <div class="letter-time" id="incomingDetailTime"></div>
+            <div class="letter-detail-content" id="incomingDetailContent"></div>
+            <button class="btn small" onclick="markIncomingRead()" style="margin-top:10px;">标记为已读</button>
+        </div>
+    </div>
+    <!-- 设置弹窗 -->
+    <div class="modal" id="settingModal">
+        <div class="modal-content">
+            <div class="close" onclick="closeModal()">×</div>
+            <h3>设置中心</h3>
+            <div class="setting-tab">
+                <div class="setting-tab-btn active" onclick="switchSettingTab(1)">用户信息</div>
+                <div class="setting-tab-btn" onclick="switchSettingTab(2)">回复设置</div>
+                <div class="setting-tab-btn" onclick="switchSettingTab(3)">主题背景</div>
+                <div class="setting-tab-btn" onclick="switchSettingTab(4)">存储管理</div>
+            </div>
+            <div class="setting-panel active" id="panel1">
+                <div id="userInfoPanel" style="display:none;">
+                    <div class="input-item"><label>用户昵称：</label><input type="text" id="setName" placeholder="修改昵称"></div>
+                    <div class="input-item"><label>个人头像：</label><div style="display:flex; align-items:center; gap:10px;"><div class="avatar" onclick="changeUserAvatar()"><img id="userAvatarImg" src="https://via.placeholder.com/40"></div><button class="btn small" onclick="changeUserAvatar()">上传头像</button></div></div>
+                    <div class="input-item"><label>生日：</label><input type="date" id="userBirthday"></div>
+                    <div class="input-item"><label>账号：</label><input type="text" id="userAccount" readonly></div>
+                    <div class="input-item"><label>密码：</label><div class="password-wrapper"><input type="password" id="userPassword" placeholder="新密码（留空不修改）"><span class="toggle-pwd" onclick="togglePasswordVisibility()">👁️</span></div></div>
+                    <button class="btn" onclick="logout()" style="width:100%;margin-top:8px;">退出登录</button>
+                </div>
+                <div id="loginPanel" style="display:block;">
+                    <div class="login-sub-panel" id="loginSubPanel">
+                        <div class="input-item"><input type="text" id="loginAccount" placeholder="账号/邮箱/手机号"></div>
+                        <div class="input-item"><input type="password" id="loginPwd" placeholder="密码"></div>
+                        <button class="btn" onclick="login()" style="width:100%">登录</button>
+                        <div class="link" style="margin-top:8px;"><span onclick="switchToReg()">立即注册</span> | <span onclick="switchToForget()">忘记密码</span></div>
+                    </div>
+                    <div class="login-sub-panel" id="regSubPanel" style="display:none;">
+                        <div class="input-item"><input type="text" id="regAccount" placeholder="设置账号"></div>
+                        <div class="input-item"><input type="email" id="regEmail" placeholder="邮箱（可选）"></div>
+                        <div class="input-item"><input type="tel" id="regPhone" placeholder="手机号（可选）"></div>
+                        <div class="input-item"><input type="password" id="regPwd" placeholder="设置密码"></div>
+                        <button class="btn" onclick="register()" style="width:100%">注册并登录</button>
+                        <div class="link" style="margin-top:8px;"><span onclick="switchToLogin()">返回登录</span></div>
+                    </div>
+                    <div class="login-sub-panel" id="forgetSubPanel" style="display:none;">
+                        <div class="input-item"><input type="text" id="forgetAccount" placeholder="账号/邮箱/手机号"></div>
+                        <div class="input-item"><input type="password" id="newPwd" placeholder="新密码"></div>
+                        <button class="btn" onclick="findPwd()" style="width:100%">重置密码</button>
+                        <div class="link" style="margin-top:8px;"><span onclick="switchToLogin()">返回登录</span></div>
+                    </div>
+                </div>
+            </div>
+            <div class="setting-panel" id="panel2">
+                <div class="input-item"><label>回复频率（%）：</label><input type="number" id="replyRate" min="0" max="100" value="100"></div>
+                <div class="input-item"><label>回复间隔（秒）：</label><input type="number" id="replyTime" min="1" value="3"><small>实际延迟增加随机缓冲</small></div>
+                <div class="input-item"><label>主动发消息（秒）：</label><input type="number" id="autoSendTime" min="5" value="30"><small>0=关闭</small></div>
+                <div class="input-item"><label><input type="checkbox" id="smartReplyCheck" checked> 启用智能回复</label></div>
+                <div class="input-item"><label>词库搜索时间（秒）：</label><input type="number" id="searchTime" min="1" value="3"></div>
+            </div>
+            <div class="setting-panel" id="panel3">
+                <div class="theme-box">
+                    <h4>日夜模式</h4><div style="margin:10px 0;"><button class="btn small" onclick="switchMode('day')" id="dayModeBtn2">白天</button><button class="btn small" onclick="switchMode('night')" id="nightModeBtn2">夜晚</button></div>
+                    <h4>全局颜色</h4><div class="theme-color" id="mainColorList2"></div>
+                    <h4>我的气泡色</h4><div class="theme-color" id="bubbleMeList2"></div>
+                    <h4>对方气泡色</h4><div class="theme-color" id="bubbleYouList2"></div>
+                    <h4>自定义背景</h4><button class="btn small" onclick="setBgImage()">上传背景</button><button class="btn small" onclick="clearBg()">清除</button>
+                </div>
+            </div>
+            <div class="setting-panel" id="panel4">
+                <h4>存储空间使用情况</h4><div style="margin:10px 0; padding:8px; background:var(--secondary-bg); border-radius:4px;"><div>已用空间：<span id="storageUsage">0 MB</span></div><div>消息总数：<span id="totalMessagesCount">0</span> 条</div></div>
+                <div style="display:flex; gap:8px; flex-wrap:wrap; margin-top:15px;">
+                    <button class="btn small" onclick="exportAllData()">📤 导出全部数据</button>
+                    <button class="btn small" onclick="document.getElementById('importFile').click()">📥 导入数据</button>
+                    <input type="file" id="importFile" accept=".json" style="display:none;" onchange="importAllData(event)">
+                    <button class="btn small" onclick="trimAllOldMessages()">🗑️ 清理最早消息</button>
+                </div>
+                <p style="font-size:12px; color:#999; margin-top:8px;">导出为 JSON 文件，可备份或迁移数据。导入将覆盖当前所有数据。</p>
+            </div>
+            <button class="btn" onclick="saveAllSetting()" style="width:100%;margin-top:8px;">保存设置</button>
+        </div>
+    </div>
+
+    <script>
+        // ==================== 全局函数定义 ====================
+        window.showTypingIndicator = function() { const el = document.getElementById('typingTip'); if (el) el.style.display = 'block'; };
+        window.hideTypingIndicator = function() { const el = document.getElementById('typingTip'); if (el) el.style.display = 'none'; };
+
+        // 数据定义
+        let userData, chatData, themeData, avatars, emojiData, letterData, tarotHistory;
+        let calendarData = [];
+        let incomingLetters = [];
+        let currentTab = null;
+        let autoSendTimer = null;
+        let incomingTimer = null;
+        let currentSettingTab = 1;
+        let currentWriteTo = '';
+        let currentQuoteMsg = null;
+        let currentCardTab = 'default';
+        let notificationTimeout = null;
+        let currentTarotResult = null;
+        const PAGE_SIZE = 50;
+        const MAX_MESSAGES = 200;
+        let currentPageStart = 0;
+        let scrollThrottle = false;
+        let saveTimer;
+
+        // 日历相关
+        let currentCalendarYear = new Date().getFullYear();
+        let currentCalendarMonth = new Date().getMonth();
+        let selectedCalendarDate = null;
+        let isEditing = false;
+
+        // 字卡搜索关键词
+        let userCardSearchKeyword = '';
+
+        // 预设默认词库
+        const defaultCards = [
+            '早上好','中午好','下午好','晚上好','晚安','今天过得怎么样','最近好吗','好久不见','见到你很高兴',
+            '吃了吗','在忙什么呢','周末愉快','新的一天加油','祝你好运','一切顺利',
+            '注意身体','多喝热水','早点休息','别太累','照顾好自己','天冷加衣','按时吃饭','工作顺利吗',
+            '别熬夜','保重身体','累了就歇会儿','心情不好可以找我','有我在呢','别难过','我陪着你','一切都会好起来的',
+            '想你了','我爱你','好想你','梦到你了','你真好','和你在一起很开心','你是我的阳光','永远在一起',
+            '抱抱','亲亲','你是我的唯一','遇见你是最美的意外','想和你一起看星星','你在我心里很重要',
+            '有你在身边真好','你是我最珍贵的宝贝','想和你共度余生','你笑起来真好看',
+            '清晨','早晨','上午','中午','下午','傍晚','黄昏','晚上','深夜','凌晨','今天','明天','昨天','周末','下周','下个月','今年','明年',
+            '我觉得你可以试试','要不要考虑一下','也许这样更好','我建议你','你可以尝试','或许可以','不妨试试','为什么不呢',
+            '连上了','已经连接上了','没有连接上','能量不稳定','能量稳定','信号弱','信号强',
+            '未来会更好','想象我们老了的样子','未来的计划','一起看星星','环游世界',
+            '真的吗','太好了','我也这么觉得','你说的对','我明白了','原来如此','太棒了','真为你高兴',
+            '别担心','慢慢来','加油','我相信你','你可以的','我支持你','随时找我','不用客气',
+            '记得按时吃饭','今天吃了吗','别饿着自己','多喝温水','注意保暖','照顾好自己','累了就休息','别太拼了',
+            '生理期要多休息','喝点红糖水','肚子疼吗','别碰冷水','注意保暖','给你泡了姜茶','抱抱就不疼了',
+            '今天天气真好','下雨了记得带伞','降温了多穿点','阳光明媚','适合散步','天气转凉','注意防暑',
+            '我一直在呢','别担心','有我在','陪你','想你了','我来了','马上到','等我',
+            '没有我要说的话','增加字卡','没有找到合适的字卡','我在呼唤你','我有点委屈','你不理我'
+        ];
+
+        // 塔罗牌数据
+        const tarotDeck = [
+            { number:0, name:'愚者', upright: { meaning:'新的开始、冒险、天真', message:'我想和你一起开始一段新的旅程，什么都不用担心，跟着感觉走就好。' }, reversed: { meaning:'冲动、鲁莽、不切实际', message:'我知道自己有时候太冲动，可能让你担心了。但有些事，不去试试怎么知道不行呢？' } },
+            { number:1, name:'魔术师', upright: { meaning:'创造力、技能、意志', message:'我其实有很多想法，只是还没找到合适的机会和你分享。给我一点时间，我会做到的。' }, reversed: { meaning:'缺乏方向、浪费天赋', message:'最近有点迷茫，感觉什么都做不好。但我还在努力，不会放弃的。' } },
+            { number:2, name:'女祭司', upright: { meaning:'直觉、智慧、神秘', message:'有些事我凭直觉就能感觉到，但我不想说破。你懂我的意思吗？' }, reversed: { meaning:'压抑、冷漠、拒绝沟通', message:'我知道我有时候太沉默了，不是不想理你，是我需要时间消化自己的情绪。' } },
+            { number:3, name:'女皇', upright: { meaning:'丰饶、母爱、自然', message:'和你在一起的时候，我觉得很安心，就像回到家一样。' }, reversed: { meaning:'依赖、缺乏安全感', message:'我可能有点太依赖你了，但有时候就是控制不住想靠近你。' } },
+            { number:4, name:'皇帝', upright: { meaning:'权威、秩序、控制', message:'我希望自己能变得更强大，这样才能保护好你。' }, reversed: { meaning:'固执、霸道、控制欲强', message:'对不起，我有时候太强势了。我会学着多听听你的想法。' } },
+            { number:5, name:'教皇', upright: { meaning:'信仰、传统、教育', message:'我觉得我们应该认真对待这段关系，不只是玩玩而已。' }, reversed: { meaning:'叛逆、打破规则', message:'我不想被条条框框束缚，只想和你自由自在地相处。' } },
+            { number:6, name:'恋人', upright: { meaning:'选择、爱情、结合', message:'在我心里，你很重要。重要到有时候我都不敢轻易做决定。' }, reversed: { meaning:'矛盾、分离、犹豫不决', message:'我们之间好像有些问题，但我不知道该怎么开口。你能感觉到吗？' } },
+            { number:7, name:'战车', upright: { meaning:'胜利、意志、决心', message:'不管遇到什么困难，我都会坚持下去，因为我想和你走到最后。' }, reversed: { meaning:'失控、冲突、缺乏自律', message:'最近压力有点大，我可能会控制不住情绪，但我不想伤害你。' } },
+            { number:8, name:'力量', upright: { meaning:'勇气、耐心、温和', message:'其实我很害怕失去你，但我愿意用最大的耐心去守护这份感情。' }, reversed: { meaning:'软弱、怀疑、失去信心', message:'我有时候会怀疑自己，是不是真的能给你幸福。' } },
+            { number:9, name:'隐士', upright: { meaning:'内省、寻找、孤独', message:'我需要一点独处的时间，想清楚一些事。不是要离开你，是想成为更好的自己。' }, reversed: { meaning:'逃避、孤立、拒绝帮助', message:'我知道自己在逃避，但请你再给我一点时间，好吗？' } },
+            { number:10, name:'命运之轮', upright: { meaning:'转折、命运、变化', message:'我相信我们的相遇是命中注定的，未来的变化我也愿意和你一起面对。' }, reversed: { meaning:'抗拒改变、厄运', message:'最近好像什么都不顺，但我相信这只是暂时的。' } },
+            { number:11, name:'正义', upright: { meaning:'公平、因果、平衡', message:'我想和你平等地相处，互相尊重，互相理解。' }, reversed: { meaning:'不公、逃避责任', message:'我知道自己做得不够好，我会努力弥补的。' } },
+            { number:12, name:'倒吊人', upright: { meaning:'牺牲、换个角度', message:'有时候我愿意为你牺牲一些东西，因为我真心在乎你。' }, reversed: { meaning:'固执、不愿放手', message:'我知道自己太执着了，但有些事我真的放不下。' } },
+            { number:13, name:'死神', upright: { meaning:'结束、新生、转变', message:'过去的就让它过去吧，我想和你一起迎接新的开始。' }, reversed: { meaning:'抗拒结束、停滞不前', message:'我还没准备好放下过去，所以请你再等等我。' } },
+            { number:14, name:'节制', upright: { meaning:'平衡、调和、适度', message:'我想找到一种方式，既能保持自我，又能和你好好相处。' }, reversed: { meaning:'失衡、冲突、极端', message:'我最近有点情绪化，如果说了什么伤人的话，对不起。' } },
+            { number:15, name:'恶魔', upright: { meaning:'束缚、欲望、物质', message:'我承认有时候会被欲望冲昏头脑，但在我心里，你比什么都重要。' }, reversed: { meaning:'解脱、放下执念', message:'我正在学着放下那些不该有的执念，希望能轻松地爱你。' } },
+            { number:16, name:'高塔', upright: { meaning:'崩塌、剧变、觉醒', message:'最近可能发生了一些让你我措手不及的事，但我想和你一起重建。' }, reversed: { meaning:'避免灾难、僵局', message:'我努力避免不好的事情发生，但有时候真的无能为力。' } },
+            { number:17, name:'星星', upright: { meaning:'希望、宁静、灵感', message:'和你在一起的时候，我总是充满希望。你就是我的星星。' }, reversed: { meaning:'失望、失去信心', message:'我最近有点丧，感觉什么都提不起劲。但看到你，还是能好一点。' } },
+            { number:18, name:'月亮', upright: { meaning:'恐惧、不安、潜意识', message:'我有时候会做噩梦，醒来第一个想到的就是你。' }, reversed: { meaning:'误解、焦虑', message:'可能我想太多了，但真的害怕你会离开。' } },
+            { number:19, name:'太阳', upright: { meaning:'快乐、成功、活力', message:'和你在一起我总是很开心，谢谢你出现在我生命里。' }, reversed: { meaning:'暂时的沮丧、缺乏热情', message:'最近有点累，但想到你心情就会变好。' } },
+            { number:20, name:'审判', upright: { meaning:'觉醒、重生、召唤', message:'我想重新开始，和你好好经营这段感情。你愿意吗？' }, reversed: { meaning:'自我怀疑、拖延', message:'我一直在犹豫，要不要把心里的话告诉你。现在我想说出来了。' } },
+            { number:21, name:'世界', upright: { meaning:'圆满、完成、旅程', message:'和你在一起，我觉得自己的人生都完整了。' }, reversed: { meaning:'未竟之事、停滞', message:'我还有很多事没做完，等我处理好了，一定好好陪你。' } },
+            { number:22, name:'权杖十', upright: { meaning:'压力、负担、责任', message:'最近压力很大，感觉自己快撑不住了。但我不会倒下，因为还要保护你。' }, reversed: { meaning:'过度劳累、逃避', message:'我知道自己背负太多了，但真的不知道怎么卸下。' } },
+            { number:23, name:'圣杯四', upright: { meaning:'冷漠、沉思、不满', message:'我有时候会沉浸在自己的世界里，不是故意忽略你。' }, reversed: { meaning:'新的机会、觉醒', message:'我好像开始意识到你的重要了，以前是我不好。' } },
+            { number:24, name:'圣杯二', upright: { meaning:'平等、连接、友谊', message:'我希望我们能像朋友一样自然，像恋人一样亲密。' }, reversed: { meaning:'关系不对等、疏远', message:'我觉得我们之间有点不平等，可能是我做得不够好。' } },
+            { number:25, name:'宝剑三', upright: { meaning:'悲伤、失落、痛苦', message:'有些伤痛我以为已经好了，但偶尔还是会痛。' }, reversed: { meaning:'愈合、释怀', message:'那些过去的伤，我正在慢慢放下。谢谢你陪着我。' } }
+        ];
+
+        // 梦角回信用前缀后缀
+        const moodPrefixes = [
+            "今天天气很好，心情也特别好，","刚忙完，有点累，但看到你的信就精神了，","不知道为什么，就是想给你回信，",
+            "我刚刚在想你，你就来信了，","心情有点复杂，但想和你说说话，","你知道吗，你每次来信我都特别开心，",
+            "有点困了，但还是要回你，","今天遇到一些事，想听听你的意见，","我觉得，","我想告诉你，","忽然很想对你说，",
+            "其实我一直在想，","看到你的信，我突然觉得，","刚刚发呆的时候，脑子里都是你，","今天有点小确幸，想和你分享，",
+            "虽然很忙，但还是忍不住给你回信，","我也不知道为什么，就是想对你说，","刚刚听到一首歌，想起了你，",
+            "今天的风很温柔，就像你一样，","可能你猜不到，我现在的心情是，","我想了很久，还是决定写下这些，",
+            "你知道吗，每次读你的信都会让我平静下来，","今天阳光很好，就像你给我的感觉，","最近一直在忙，但心里一直惦记着你，",
+            "其实有些话早就想说了，","此刻的我，坐在窗边，忽然很想你，","今天发生了一件有趣的事，让我想起了你，",
+            "我刚刚在发呆，然后就想到了你，","有时候我觉得，你就像我的星星，","写这封信的时候，我心里特别温暖，"
+        ];
+        const moodSuffixes = [
+            " 你呢？今天过得怎么样？"," 希望你也开心。"," 你要好好照顾自己。"," 我想你也是这么想的吧。",
+            " 这就是我现在的心情。"," 你懂我的意思吗？"," 不知道你听了会怎么想。"," 这些话憋在心里很久了。",
+            " 希望你能理解。"," 这就是我想说的。"," 晚安，早点休息。"," 我要去忙了，回头聊。"," 你也要好好的。",
+            " 等我忙完这阵子，再好好陪你。"," 愿你今天也有好心情。"," 就这样吧，明天见。"," 希望我的回信能让你开心一点。",
+            " 如果我说错了什么，别介意。"," 其实我还有很多话想说，但下次吧。"," 记得回信哦。"," 等你下次来信，我再告诉你更多。",
+            " 总之，你要好好的。"," 愿我的心情也能传达到你那里。"," 希望你不要嫌弃我啰嗦。"," 就这样啦，抱抱。",
+            " 我在这里，一直在这里。"," 无论何时，你都可以写信给我。"," 期待你的下一封信。"," 照顾好自己，比什么都重要。",
+            " 此刻的我，很想抱抱你。"
+        ];
+
+        // 安全解析（兼容旧数据）
+        function safeParse(json, defaultValue) {
+            try { let parsed = JSON.parse(json); return deepMerge(defaultValue, parsed); } catch (e) { return defaultValue; }
+        }
+        function deepMerge(target, source) {
+            if (typeof target !== 'object' || target === null || typeof source !== 'object' || source === null) return source !== undefined ? source : target;
+            let result = Array.isArray(target) ? target.slice() : { ...target };
+            for (let key in source) if (source.hasOwnProperty(key)) result[key] = deepMerge(target[key], source[key]);
+            return result;
+        }
+
+        // 根据当前用户获取存储键名
+        function getStorageKey(base) {
+            if (userData && userData.currentUser) {
+                return base + '_' + userData.currentUser.account;
+            }
+            return base + '_guest';
+        }
+
+        // 初始化数据（按用户隔离）
+        function initData() {
+            userData = safeParse(localStorage.getItem('xingheUser'), { users: [], currentUser: null });
+
+            const chatKey = getStorageKey('xingheChat');
+            const themeKey = getStorageKey('xingheTheme');
+            const avatarKey = getStorageKey('xingheAvatars');
+            const emojiKey = getStorageKey('xingheEmojis');
+            const letterKey = getStorageKey('xingheLetters');
+            const tarotKey = getStorageKey('tarotHistory');
+            const calendarKey = getStorageKey('xingheCalendar');
+            const incomingKey = getStorageKey('xingheIncomingLetters');
+
+            chatData = safeParse(localStorage.getItem(chatKey), {
+                contacts: ['宇宙助手'], currentContact: '宇宙助手', msgMap: { '宇宙助手': [] },
+                contactSettings: { '宇宙助手': { avatar: 'https://via.placeholder.com/40', name: '宇宙助手' } },
+                userCards: [], cardUse: {}, chatTotal: 0,
+                setting: { rate: 100, time: 3, autoSend: 30, smartReply: true, searchTime: 3 },
+                letterTimers: []
+            });
+            themeData = safeParse(localStorage.getItem(themeKey), { main: '#ffffff', bubbleMe: '#91d5ff', bubbleYou: '#fff', bgImg: '', mode: 'day' });
+            avatars = safeParse(localStorage.getItem(avatarKey), { me: 'https://via.placeholder.com/40', you: 'https://via.placeholder.com/40' });
+            emojiData = safeParse(localStorage.getItem(emojiKey), [ '😊','😂','😍','👍','❤️','🎉','😢','😡','😱','🤔', 'https://via.placeholder.com/30/FF6B6B/FFFFFF?text=😊', 'https://via.placeholder.com/30/4ECDC4/FFFFFF?text=😂' ]);
+            letterData = safeParse(localStorage.getItem(letterKey), []);
+            tarotHistory = safeParse(localStorage.getItem(tarotKey), []);
+            calendarData = safeParse(localStorage.getItem(calendarKey), []);
+            incomingLetters = safeParse(localStorage.getItem(incomingKey), []);
+
+            // 兼容旧数据处理
+            if (chatData.cards) {
+                let oldCards = chatData.cards || [];
+                let userCards = oldCards.filter(c => !defaultCards.includes(c));
+                chatData.userCards = [...new Set([...(chatData.userCards || []), ...userCards])];
+                delete chatData.cards;
+            }
+            if (!chatData.userCards) chatData.userCards = [];
+            chatData.contacts = chatData.contacts || ['宇宙助手'];
+            if (!chatData.contactSettings) chatData.contactSettings = {};
+            chatData.contacts.forEach(name => { if (!chatData.contactSettings[name]) chatData.contactSettings[name] = { avatar: 'https://via.placeholder.com/40', name: name }; });
+            chatData.msgMap = chatData.msgMap || {};
+            chatData.contacts.forEach(name => {
+                if (!Array.isArray(chatData.msgMap[name])) chatData.msgMap[name] = [];
+                chatData.msgMap[name] = chatData.msgMap[name].map((msg, idx) => {
+                    if (!msg.id) msg.id = Date.now() + '-' + idx + '-' + Math.random();
+                    if (msg.timestamp === undefined) msg.timestamp = Date.now() - 86400000;
+                    return msg;
+                });
+            });
+            if (!chatData.msgMap[chatData.currentContact]) chatData.msgMap[chatData.currentContact] = [];
+            if (!chatData.cardUse) chatData.cardUse = {};
+            if (!chatData.setting) chatData.setting = {};
+            if (chatData.setting.smartReply === undefined) chatData.setting.smartReply = true;
+            if (chatData.setting.searchTime === undefined) chatData.setting.searchTime = 3;
+            if (!chatData.letterTimers) chatData.letterTimers = [];
+        }
+
+        // 保存数据（按用户隔离）
+        function saveCalendarData() { localStorage.setItem(getStorageKey('xingheCalendar'), JSON.stringify(calendarData)); }
+        function saveIncomingLetters() { localStorage.setItem(getStorageKey('xingheIncomingLetters'), JSON.stringify(incomingLetters)); }
+        function saveChatDataDebounced() {
+            clearTimeout(saveTimer);
+            saveTimer = setTimeout(() => {
+                try { localStorage.setItem(getStorageKey('xingheChat'), JSON.stringify(chatData)); }
+                catch (e) { if (e.name === 'QuotaExceededError') { alert('存储空间不足，自动清理...'); trimAllOldMessages(); try { localStorage.setItem(getStorageKey('xingheChat'), JSON.stringify(chatData)); } catch (e2) { alert('存储空间严重不足，请手动导出数据后清理。'); } } else throw e; }
+            }, 200);
+        }
+        function saveThemeData() { localStorage.setItem(getStorageKey('xingheTheme'), JSON.stringify(themeData)); }
+        function saveAvatars() { localStorage.setItem(getStorageKey('xingheAvatars'), JSON.stringify(avatars)); }
+        function saveEmojiData() { localStorage.setItem(getStorageKey('xingheEmojis'), JSON.stringify(emojiData)); }
+        function saveLetterData() { localStorage.setItem(getStorageKey('xingheLetters'), JSON.stringify(letterData)); }
+        function saveTarotHistory() { localStorage.setItem(getStorageKey('tarotHistory'), JSON.stringify(tarotHistory)); }
+
+        window.trimAllOldMessages = function() {
+            let changed = false;
+            for (let contact in chatData.msgMap) {
+                let msgs = chatData.msgMap[contact];
+                if (msgs.length > MAX_MESSAGES) { chatData.msgMap[contact] = msgs.slice(-MAX_MESSAGES); changed = true; }
+            }
+            if (changed) { saveChatDataDebounced(); alert('已清理所有联系人的最早消息。'); if (currentTab === 'chat') { currentPageStart = 0; renderVisibleMessages(); } updateStorageInfo(); }
+            else alert('没有需要清理的消息。');
+        };
+
+        function updateStorageInfo() {
+            let total = 0; for (let key in localStorage) if (localStorage.hasOwnProperty(key)) total += (localStorage[key].length * 2);
+            document.getElementById('storageUsage').innerText = (total / 1024 / 1024).toFixed(2) + ' MB';
+            let count = 0; for (let contact in chatData.msgMap) count += chatData.msgMap[contact].length;
+            document.getElementById('totalMessagesCount').innerText = count;
+        }
+
+        function renderHomeContactList() {
+            let container = document.getElementById('homeContactList');
+            if (!container) return;
+            if (!chatData.contacts || chatData.contacts.length === 0) { container.innerHTML = '<div class="empty-tip">暂无梦角，点击下方添加</div>'; return; }
+            let html = '';
+            chatData.contacts.forEach(name => {
+                let setting = chatData.contactSettings[name] || { avatar: 'https://via.placeholder.com/40', name: name };
+                html += `<div class="contact-item" onclick="enterChatWithContact('${name.replace(/'/g, "\\'")}')"><div class="contact-avatar"><img src="${setting.avatar}" onerror="this.src='https://via.placeholder.com/40'"></div><span class="contact-name">${setting.name}</span></div>`;
+            });
+            container.innerHTML = html;
+        }
+
+        window.goHome = function() { document.getElementById('homeContainer').style.display = 'flex'; document.getElementById('featurePages').style.display = 'none'; currentTab = null; renderHomeContactList(); };
+        window.enterFeature = function(feature) {
+            document.getElementById('homeContainer').style.display = 'none'; document.getElementById('featurePages').style.display = 'block';
+            const pages = ['chatPage','writePage','replyPage','letterListPage','cardPage','statsPage','themePage','tarotPage','calendarPage','incomingPage'];
+            pages.forEach(p => document.getElementById(p).style.display = 'none');
+            if (feature === 'chat') {
+                document.getElementById('chatPage').style.display = 'flex'; updateChatHeader(); markAllYouMessagesAsRead(); applyChatPageBackground(); currentPageStart = 0;
+                renderVisibleMessages(); renderContactDropdown(); bindSendButton(); renderEmojiPanel(); clearQuote();
+            } else if (feature === 'write') document.getElementById('writePage').style.display = 'block';
+            else if (feature === 'reply') { document.getElementById('replyPage').style.display = 'block'; renderReplyList(); }
+            else if (feature === 'letterList') { document.getElementById('letterListPage').style.display = 'block'; renderAllLetter(); }
+            else if (feature === 'card') { document.getElementById('cardPage').style.display = 'block'; userCardSearchKeyword = ''; const si = document.getElementById('searchUserCard'); if (si) si.value = ''; renderCardManagement(); }
+            else if (feature === 'stats') { document.getElementById('statsPage').style.display = 'block'; renderStats(); }
+            else if (feature === 'theme') { document.getElementById('themePage').style.display = 'block'; renderTheme(); }
+            else if (feature === 'tarot') { document.getElementById('tarotPage').style.display = 'block'; document.getElementById('tarotResult').style.display = 'none'; document.getElementById('tarotLoading').style.display = 'none'; document.getElementById('tarotQuestion').value = ''; currentTarotResult = null; }
+            else if (feature === 'calendar') { 
+                document.getElementById('calendarPage').style.display = 'block'; 
+                currentCalendarYear = new Date().getFullYear(); currentCalendarMonth = new Date().getMonth(); selectedCalendarDate = null; isEditing = false;
+                renderCalendar(); hideMoodCard();
+            }
+            else if (feature === 'incoming') { document.getElementById('incomingPage').style.display = 'block'; renderIncomingList(); }
+            currentTab = feature;
+        };
+        window.toggleMenu = function() { document.getElementById('menuDropdown').classList.toggle('active'); };
+        window.menuItemClick = function(param) { toggleMenu(); if (typeof param === 'number') { showSetting(); switchSettingTab(param); } else enterFeature(param); };
+        window.handleNotificationClick = function() {};
+        window.closeNotification = function() { document.getElementById('notification').style.display = 'none'; if (notificationTimeout) clearTimeout(notificationTimeout); };
+        window.enterChatWithContact = function(name) { chatData.currentContact = name; saveChatDataDebounced(); enterFeature('chat'); };
+        window.addNewChatFromHome = function() {
+            let rawName = prompt('输入新梦角的名字');
+            if (rawName) {
+                let name = rawName.trim();
+                if (name === '') return;
+                if (!chatData.contacts.includes(name)) { chatData.contacts.push(name); chatData.msgMap[name] = []; chatData.contactSettings[name] = { avatar: 'https://via.placeholder.com/40', name: name }; }
+                chatData.currentContact = name; saveChatDataDebounced(); renderHomeContactList(); if (confirm('是否立即进入聊天？')) enterFeature('chat');
+            }
+        };
+
+        // 聊天相关函数
+        function updateChatHeader() { let name = chatData.currentContact || '宇宙助手'; let setting = chatData.contactSettings[name] || { avatar: 'https://via.placeholder.com/40', name: name }; document.getElementById('currentContactName').innerText = setting.name; document.getElementById('currentContactAvatar').src = setting.avatar; renderContactActionMenu(); }
+        function markAllYouMessagesAsRead() { let msgs = chatData.msgMap[chatData.currentContact]; if (!msgs) return; let changed = false; msgs.forEach(msg => { if (msg.type === 'you' && !msg.read) { msg.read = true; changed = true; } }); if (changed) saveChatDataDebounced(); }
+        function applyChatPageBackground() {
+            const main = document.getElementById('chatMain'); const isNight = document.body.classList.contains('night-mode'); const bgImg = themeData.bgImg;
+            if (bgImg) { if (isNight) main.style.background = `linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('${bgImg}') center/cover no-repeat`; else main.style.background = `url('${bgImg}') center/cover no-repeat`; } else main.style.background = '';
+        }
+        function bindSendButton() { const sendBtn = document.getElementById('sendBtn'); if (sendBtn) sendBtn.onclick = sendMsg; const input = document.getElementById('sendInput'); if (input) input.onkeydown = function(e) { if (e.key === 'Enter') sendMsg(); }; }
+        function renderContactDropdown() {
+            let dropdown = document.getElementById('contactDropdown'); dropdown.innerHTML = '';
+            chatData.contacts.forEach(name => { let setting = chatData.contactSettings[name] || { name: name }; let item = document.createElement('div'); item.className = 'contact-dropdown-item' + (name === chatData.currentContact ? ' active' : ''); item.innerText = setting.name; item.onclick = () => { switchContact(name); dropdown.classList.remove('active'); }; dropdown.appendChild(item); });
+        }
+        function renderContactActionMenu() {
+            let menu = document.getElementById('contactActionMenu'); let current = chatData.currentContact; if (!current) return; let setting = chatData.contactSettings[current] || { name: current };
+            menu.innerHTML = `<div class="action-item" onclick="viewCurrentContactAvatar()"><span class="avatar small"><img src="${setting.avatar}" onerror="this.src='https://via.placeholder.com/24'"></span> 查看头像</div><div class="action-item" onclick="renameCurrentContact()">✏️ 修改名字</div><div class="action-item delete" onclick="deleteCurrentContact()">🗑️ 删除联系人</div>`;
+        }
+        function renderEmojiPanel() {
+            let panel = document.getElementById('emojiPanel'); panel.innerHTML = '';
+            emojiData.forEach(e => { let div = document.createElement('div'); div.className = 'emoji-item'; if (e.startsWith('http') || e.startsWith('data:image')) { let img = document.createElement('img'); img.src = e; div.appendChild(img); } else div.innerText = e; div.onclick = () => selectEmoji(e); panel.appendChild(div); });
+        }
+        function selectEmoji(emoji) { let input = document.getElementById('sendInput'); let startPos = input.selectionStart, endPos = input.selectionEnd; input.value = input.value.substring(0, startPos) + emoji + input.value.substring(endPos); input.selectionStart = startPos + emoji.length; input.selectionEnd = startPos + emoji.length; input.focus(); toggleEmojiPanel(); }
+        function handleChatScroll() {
+            if (scrollThrottle) return; scrollThrottle = true; requestAnimationFrame(() => {
+                const main = document.getElementById('chatMain');
+                if (main.scrollTop === 0 && currentPageStart > 0) {
+                    const allMessages = chatData.msgMap[chatData.currentContact] || [];
+                    const newStart = Math.max(0, currentPageStart - PAGE_SIZE);
+                    if (newStart < currentPageStart) {
+                        const oldHeight = main.scrollHeight, oldStart = currentPageStart;
+                        currentPageStart = newStart;
+                        const fragment = document.createDocumentFragment();
+                        const newMessages = allMessages.slice(currentPageStart, oldStart);
+                        newMessages.reverse().forEach(msg => fragment.insertBefore(createMessageElement(msg), fragment.firstChild));
+                        main.insertBefore(fragment, main.firstChild);
+                        main.scrollTop = main.scrollHeight - oldHeight;
+                    }
+                }
+                scrollThrottle = false;
+            });
+        }
+        function createMessageElement(msg) {
+            let item = document.createElement('div'); item.className = `msg-item ${msg.type}`; item.setAttribute('data-msgid', msg.id);
+            let content = msg.content, bubbleContent = '';
+            if (msg.quoteMsg) bubbleContent += `<div class="quote-indicator">引用: ${msg.quoteMsg.content.substring(0,20)}...</div>`;
+            if (content.startsWith('http') && (content.includes('.png') || content.includes('.jpg') || content.includes('.jpeg') || content.includes('.gif')) || content.startsWith('data:image')) bubbleContent += `<img src="${content}" style="max-width:150px; max-height:150px; border-radius:8px;">`;
+            else bubbleContent += content;
+            let avatarSrc = msg.type === 'me' ? avatars.me : (chatData.contactSettings[chatData.currentContact]?.avatar || avatars.you);
+            let timeHtml = `<div class="msg-time">${msg.time}</div>`;
+            if (msg.type === 'you' && !msg.read) { timeHtml = `<div class="msg-time">${msg.time} <span>未读</span></div>`; }
+            item.innerHTML = `<div class="avatar" onclick="${msg.type === 'me' ? 'changeAvatar(\'me\')' : 'viewCurrentContactAvatar()'}"><img src="${avatarSrc}"></div><div><div class="msg-bubble">${bubbleContent}</div>${timeHtml}</div>`;
+            return item;
+        }
+        function renderVisibleMessages() { const main = document.getElementById('chatMain'); main.innerHTML = ''; const allMessages = chatData.msgMap[chatData.currentContact] || []; const endIndex = allMessages.length; const startIndex = currentPageStart > 0 ? currentPageStart : Math.max(0, endIndex - PAGE_SIZE); const visibleMessages = allMessages.slice(startIndex, endIndex); const fragment = document.createDocumentFragment(); visibleMessages.forEach(msg => fragment.appendChild(createMessageElement(msg))); main.appendChild(fragment); }
+        function addMessageToEnd(msg) { const main = document.getElementById('chatMain'); const element = createMessageElement(msg); main.appendChild(element); if (currentPageStart === 0) main.scrollTop = main.scrollHeight; if (currentPageStart === 0 && main.children.length > PAGE_SIZE) main.removeChild(main.firstElementChild); }
+
+        // 发送消息
+        window.sendMsg = function() {
+            try {
+                if (!chatData.currentContact || !chatData.contacts.includes(chatData.currentContact)) { chatData.currentContact = chatData.contacts[0] || '宇宙助手'; saveChatDataDebounced(); updateChatHeader(); }
+                let ipt = document.getElementById('sendInput'); if (!ipt) return; let c = ipt.value.trim(); if (!c) return;
+                let t = new Date().toLocaleString().slice(5);
+                let msg = { type: 'me', content: c, time: t, read: true, id: Date.now() + '-' + Math.random(), timestamp: Date.now() };
+                if (currentQuoteMsg) { msg.quoteMsg = { content: currentQuoteMsg.content, id: currentQuoteMsg.id }; clearQuote(); }
+                if (!chatData.msgMap[chatData.currentContact]) chatData.msgMap[chatData.currentContact] = [];
+                chatData.msgMap[chatData.currentContact].push(msg); chatData.chatTotal++;
+                let msgs = chatData.msgMap[chatData.currentContact]; if (msgs.length > MAX_MESSAGES) msgs.shift();
+                saveChatDataDebounced(); ipt.value = '';
+                if (currentPageStart === 0) addMessageToEnd(msg); else { currentPageStart = 0; renderVisibleMessages(); document.getElementById('chatMain').scrollTop = document.getElementById('chatMain').scrollHeight; }
+                autoReply(c);
+            } catch (err) { console.error(err); alert('发送失败：' + err.message); }
+        };
+
+        // 字卡生成并记录使用次数
+        function generateSmartSentence(userMsg) {
+            let allCards = [...defaultCards, ...chatData.userCards]; if (allCards.length === 0) return '嗯嗯。';
+            let msg = userMsg.toLowerCase();
+
+            function pickAndCount(candidates) {
+                if (candidates.length === 0) return null;
+                let selected = candidates[Math.floor(Math.random() * candidates.length)];
+                chatData.cardUse[selected] = (chatData.cardUse[selected] || 0) + 1;
+                return selected;
+            }
+
+            let g = allCards.filter(c => c.includes('好') || c.includes('在吗'));
+            if (g.length) { let s = pickAndCount(g); if (s) return s; }
+            let c = allCards.filter(c => c.includes('休息') || c.includes('照顾') || c.includes('吃饭'));
+            if (c.length) { let s = pickAndCount(c); if (s) return s; }
+            let l = allCards.filter(c => c.includes('想') || c.includes('爱'));
+            if (l.length) { let s = pickAndCount(l); if (s) return s; }
+            let s = allCards.filter(c => c.includes('连接') || c.includes('信号'));
+            if (s.length) { let s2 = pickAndCount(s); if (s2) return s2; }
+            let w = allCards.filter(c => c.includes('天气') || c.includes('雨') || c.includes('冷') || c.includes('热'));
+            if (w.length) { let s2 = pickAndCount(w); if (s2) return s2; }
+            let p = allCards.filter(c => c.includes('生理期') || c.includes('红糖') || c.includes('疼') || c.includes('保暖'));
+            if (p.length) { let s2 = pickAndCount(p); if (s2) return s2; }
+
+            let selected = allCards[Math.floor(Math.random() * allCards.length)];
+            chatData.cardUse[selected] = (chatData.cardUse[selected] || 0) + 1;
+            return selected;
+        }
+
+        function autoReply(userMsg) {
+            if (!chatData.setting.smartReply) return;
+            if (!chatData.currentContact || !chatData.contacts.includes(chatData.currentContact)) return;
+            let searchDelay = (parseInt(chatData.setting.searchTime)||3)*1000, replyDelay = (parseInt(chatData.setting.time)||3)*1000, totalDelay = searchDelay+replyDelay+Math.random()*1000+500, rate = parseInt(chatData.setting.rate)||100;
+            window.showTypingIndicator();
+            setTimeout(() => {
+                window.hideTypingIndicator();
+                if (Math.random()*100 <= rate) {
+                    let msgs = chatData.msgMap[chatData.currentContact];
+                    let replyContent = generateSmartSentence(userMsg);
+                    let time = new Date().toLocaleString().slice(5);
+                    let msg = { type: 'you', content: replyContent, time: time, read: true, id: Date.now() + '-' + Math.random(), timestamp: Date.now() };
+                    msgs.push(msg); chatData.chatTotal++; if (msgs.length > MAX_MESSAGES) msgs.shift(); saveChatDataDebounced();
+                    if (currentPageStart === 0) addMessageToEnd(msg); else { currentPageStart = 0; renderVisibleMessages(); document.getElementById('chatMain').scrollTop = document.getElementById('chatMain').scrollHeight; }
+                    showNotification(`来自 ${chatData.currentContact} 的新消息`, () => enterFeature('chat'));
+                }
+            }, totalDelay);
+        }
+
+        function startAutoSend() {
+            clearInterval(autoSendTimer);
+            let t = parseInt(chatData.setting.autoSend); if (!t || t < 5) return;
+            autoSendTimer = setInterval(() => {
+                if (!userData.currentUser) return;
+                let msgs = chatData.msgMap[chatData.currentContact];
+                let replyContent = chatData.setting.smartReply ? generateSmartSentence('') : (defaultCards.concat(chatData.userCards)[Math.floor(Math.random()*(defaultCards.length+chatData.userCards.length))]||'嗯');
+                let time = new Date().toLocaleString().slice(5);
+                let msg = { type: 'you', content: replyContent, time: time, read: true, id: Date.now()+'-'+Math.random(), timestamp: Date.now() };
+                msgs.push(msg); chatData.chatTotal++; if (msgs.length > MAX_MESSAGES) msgs.shift(); saveChatDataDebounced();
+                if (currentPageStart === 0) addMessageToEnd(msg); else { currentPageStart = 0; renderVisibleMessages(); document.getElementById('chatMain').scrollTop = document.getElementById('chatMain').scrollHeight; }
+            }, t * 1000);
+        }
+
+        function showNotification(message, onClick) { const n = document.getElementById('notification'); document.getElementById('notificationMessage').innerText = message; n.style.display = 'flex'; n.onclick = () => { onClick(); closeNotification(); }; if (notificationTimeout) clearTimeout(notificationTimeout); notificationTimeout = setTimeout(closeNotification, 5000); }
+
+        window.toggleContactDropdown = function() { document.getElementById('contactDropdown').classList.toggle('active'); };
+        window.toggleContactActionMenu = function() { document.getElementById('contactActionMenu').classList.toggle('active'); };
+        window.viewCurrentContactAvatar = function() { let current = chatData.currentContact, setting = chatData.contactSettings[current]||{avatar:'https://via.placeholder.com/40',name:current}; document.getElementById('avatarViewName').innerText = setting.name; document.getElementById('avatarViewImg').src = setting.avatar; document.getElementById('avatarViewModal').style.display = 'flex'; document.getElementById('contactActionMenu').classList.remove('active'); };
+        window.closeAvatarView = function() { document.getElementById('avatarViewModal').style.display = 'none'; };
+        window.changeCurrentContactAvatar = function() {
+            let current = chatData.currentContact; let ipt = document.createElement('input'); ipt.type = 'file'; ipt.accept = 'image/*';
+            ipt.onchange = e => { let file = e.target.files[0]; if (file) { let reader = new FileReader(); reader.onload = res => { if (!chatData.contactSettings[current]) chatData.contactSettings[current] = { name: current }; chatData.contactSettings[current].avatar = res.target.result; saveChatDataDebounced(); document.getElementById('currentContactAvatar').src = res.target.result; document.getElementById('avatarViewImg').src = res.target.result; renderContactDropdown(); alert('头像已更新'); }; reader.readAsDataURL(file); } };
+            ipt.click(); closeAvatarView();
+        };
+        window.renameCurrentContact = function() { let oldName = chatData.currentContact, newName = prompt('请输入新的联系人名字', oldName); if (!newName || newName.trim() === '' || newName === oldName) { document.getElementById('contactActionMenu').classList.remove('active'); return; } newName = newName.trim(); if (chatData.contacts.includes(newName)) { alert('该名称已存在'); return; } let idx = chatData.contacts.indexOf(oldName); chatData.contacts[idx] = newName; chatData.msgMap[newName] = chatData.msgMap[oldName]; delete chatData.msgMap[oldName]; if (chatData.contactSettings[oldName]) { chatData.contactSettings[newName] = chatData.contactSettings[oldName]; chatData.contactSettings[newName].name = newName; delete chatData.contactSettings[oldName]; } chatData.currentContact = newName; saveChatDataDebounced(); updateChatHeader(); renderContactDropdown(); currentPageStart = 0; renderVisibleMessages(); document.getElementById('contactActionMenu').classList.remove('active'); };
+        window.deleteCurrentContact = function() { if (!confirm(`确定要删除联系人【${chatData.currentContact}】吗？`)) return; let name = chatData.currentContact, idx = chatData.contacts.indexOf(name); if (idx !== -1) chatData.contacts.splice(idx,1); delete chatData.msgMap[name]; delete chatData.contactSettings[name]; chatData.currentContact = chatData.contacts[0]||'宇宙助手'; saveChatDataDebounced(); updateChatHeader(); renderContactDropdown(); currentPageStart = 0; renderVisibleMessages(); document.getElementById('contactActionMenu').classList.remove('active'); };
+        window.addNewChat = function() { let rawName = prompt('输入聊天对象'); if (rawName) { let name = rawName.trim(); if (name === '') return; if (!chatData.contacts.includes(name)) { chatData.contacts.push(name); chatData.msgMap[name] = []; chatData.contactSettings[name] = { avatar:'https://via.placeholder.com/40', name: name }; } chatData.currentContact = name; saveChatDataDebounced(); updateChatHeader(); renderContactDropdown(); currentPageStart = 0; renderVisibleMessages(); } };
+        function switchContact(name) { chatData.currentContact = name; saveChatDataDebounced(); updateChatHeader(); markAllYouMessagesAsRead(); applyChatPageBackground(); renderContactDropdown(); currentPageStart = 0; requestAnimationFrame(() => { renderVisibleMessages(); document.getElementById('chatMain').scrollTop = document.getElementById('chatMain').scrollHeight; clearQuote(); }); }
+        window.hideMessageMenu = function() { document.getElementById('messageActionMenu').classList.remove('active'); };
+        window.recallMessage = function(msgId) { let msgs = chatData.msgMap[chatData.currentContact]; let index = msgs.findIndex(m => m.id === msgId); if (index !== -1 && msgs[index].type === 'me') { let now = Date.now(); if (now - (msgs[index].timestamp||now) < 120000) { msgs.splice(index,1); saveChatDataDebounced(); renderVisibleMessages(); } else alert('超过2分钟，无法撤销'); } hideMessageMenu(); };
+        window.deleteMessage = function(msgId) { let msgs = chatData.msgMap[chatData.currentContact]; let index = msgs.findIndex(m => m.id === msgId); if (index !== -1) { msgs.splice(index,1); saveChatDataDebounced(); renderVisibleMessages(); } hideMessageMenu(); };
+        window.quoteMessage = function(msgId) { let msg = chatData.msgMap[chatData.currentContact].find(m => m.id === msgId); if (msg) { currentQuoteMsg = msg; document.getElementById('quoteContent').innerText = msg.content.length>30?msg.content.substring(0,30)+'...':msg.content; document.getElementById('quoteBar').style.display = 'flex'; } hideMessageMenu(); };
+        window.clearQuote = function() { currentQuoteMsg = null; document.getElementById('quoteBar').style.display = 'none'; };
+        window.toggleEmojiPanel = function() { document.getElementById('emojiPanel').classList.toggle('active'); renderEmojiPanel(); };
+        window.switchMode = function(mode) {
+            const body = document.body;
+            if (mode === 'day') { body.classList.remove('night-mode'); themeData.mode = 'day'; document.getElementById('dayModeBtn').style.backgroundColor = '#1890ff'; document.getElementById('nightModeBtn').style.backgroundColor = '#40a9ff'; if (document.getElementById('dayModeBtn2')) { document.getElementById('dayModeBtn2').style.backgroundColor = '#1890ff'; document.getElementById('nightModeBtn2').style.backgroundColor = '#40a9ff'; } }
+            else { body.classList.add('night-mode'); themeData.mode = 'night'; document.getElementById('dayModeBtn').style.backgroundColor = '#40a9ff'; document.getElementById('nightModeBtn').style.backgroundColor = '#1890ff'; if (document.getElementById('dayModeBtn2')) { document.getElementById('dayModeBtn2').style.backgroundColor = '#40a9ff'; document.getElementById('nightModeBtn2').style.backgroundColor = '#1890ff'; } }
+            saveThemeData(); if (currentTab==='chat') applyChatPageBackground();
+        };
+        window.changeAvatar = function(type) { let ipt = document.createElement('input'); ipt.type='file'; ipt.accept='image/*'; ipt.onchange=e=>{ let file=e.target.files[0]; if (file) { let reader=new FileReader(); reader.onload=res=>{ avatars[type]=res.target.result; saveAvatars(); document.getElementById(type+'AvatarImg').src=res.target.result; renderVisibleMessages(); alert('全局头像已更换'); }; reader.readAsDataURL(file); } }; ipt.click(); };
+        window.changeUserAvatar = function() { if (!userData.currentUser) { alert('请先登录'); return; } let ipt = document.createElement('input'); ipt.type='file'; ipt.accept='image/*'; ipt.onchange=e=>{ let file=e.target.files[0]; if (file) { let reader=new FileReader(); reader.onload=res=>{ userData.currentUser.avatar=res.target.result; localStorage.setItem('xingheUser',JSON.stringify(userData)); document.getElementById('userAvatarImg').src=res.target.result; alert('个人头像已更新'); }; reader.readAsDataURL(file); } }; ipt.click(); };
+        window.togglePasswordVisibility = function() { let pwd = document.getElementById('userPassword'); pwd.type = pwd.type==='password'?'text':'password'; };
+        window.confirmWriteTo = function() { let to = document.getElementById('writeTo').value.trim(); if (!to) { alert('请输入收信人'); return; } currentWriteTo = to; document.getElementById('writeToBox').style.display = 'none'; document.getElementById('letterContent').style.display = 'block'; document.getElementById('sendLetterBtn').style.display = 'block'; };
+        window.sendLetter = function() { let content = document.getElementById('letterContent').value.trim(); if (!content || !currentWriteTo) { alert('内容不能为空'); return; } let to = currentWriteTo; let time = new Date().toLocaleString(); letterData.push({ type:'send', to:to, content:content, time:time }); saveLetterData(); let sentTime = Date.now(); let replyTime = sentTime + Math.random()*120000 + 180000; chatData.letterTimers = chatData.letterTimers||[]; chatData.letterTimers.push({ to:to, content:content, replyTime:replyTime }); saveChatDataDebounced(); alert('信件已发送，梦角会在3-5分钟后给你回信～'); document.getElementById('writeTo').value = ''; document.getElementById('letterContent').value = ''; document.getElementById('writeToBox').style.display = 'flex'; document.getElementById('letterContent').style.display = 'none'; document.getElementById('sendLetterBtn').style.display = 'none'; currentWriteTo = ''; renderAllLetter(); renderReplyList(); };
+        window.openLetterDetail = function(index) { let letter = letterData[index]; if (!letter) return; let title = letter.type==='send' ? `我寄给：${letter.to}` : `来自：${letter.from||'未知梦角'}（梦角回信）`; document.getElementById('letterDetailTitle').innerText = title; document.getElementById('letterDetailTime').innerText = letter.time; document.getElementById('letterDetailContent').innerText = letter.content; document.getElementById('letterDetailModal').style.display = 'flex'; };
+        window.closeLetterDetail = function() { document.getElementById('letterDetailModal').style.display = 'none'; };
+
+        window.switchCardTab = function(tab) { currentCardTab = tab; document.querySelectorAll('.card-tab').forEach(el=>el.classList.remove('active')); if (tab==='default') { document.querySelector('.card-tab').classList.add('active'); document.getElementById('defaultCardSection').style.display = 'block'; document.getElementById('userCardSection').style.display = 'none'; } else { document.querySelectorAll('.card-tab')[1].classList.add('active'); document.getElementById('defaultCardSection').style.display = 'none'; document.getElementById('userCardSection').style.display = 'block'; renderCardManagement(); } };
+        window.addUserCard = function() { let c = document.getElementById('cardInput').value.trim(); if (c) { if (chatData.userCards.includes(c)) { alert('该字卡已存在，不能重复添加'); return; } chatData.userCards.unshift(c); saveChatDataDebounced(); document.getElementById('cardInput').value = ''; renderCardManagement(); } };
+        window.delUserCard = function(index) { chatData.userCards.splice(index,1); saveChatDataDebounced(); renderCardManagement(); };
+        window.batchImport = function() { let t = document.getElementById('batchInput').value.trim(); if (t) { let cs = t.split('\n').map(c=>c.trim()).filter(c=>c); let newCards = cs.filter(c=>!chatData.userCards.includes(c)); if (newCards.length < cs.length) alert(`有 ${cs.length-newCards.length} 个字卡重复，已自动过滤`); chatData.userCards.unshift(...newCards); saveChatDataDebounced(); document.getElementById('batchInput').value=''; renderCardManagement(); } };
+        window.jsonImport = function() { try { let j = JSON.parse(document.getElementById('jsonInput').value); if (Array.isArray(j)) { let newCards = j.filter(c=>!chatData.userCards.includes(c)); if (newCards.length < j.length) alert(`有 ${j.length-newCards.length} 个字卡重复，已自动过滤`); chatData.userCards.unshift(...newCards); saveChatDataDebounced(); document.getElementById('jsonInput').value=''; renderCardManagement(); } } catch(e) { alert('JSON错误'); } };
+        window.jsonExport = function() { document.getElementById('jsonInput').value = JSON.stringify(chatData.userCards, null, 2); };
+        window.clearAllUserCards = function() { if (!confirm('确定要清空所有用户字卡吗？此操作不可撤销。')) return; chatData.userCards = []; saveChatDataDebounced(); renderCardManagement(); };
+
+        function renderCardManagement() {
+            let defaultList = document.getElementById('defaultCardList'); defaultList.innerHTML = '';
+            defaultCards.forEach(card => { let div = document.createElement('div'); div.className = 'card-item'; div.innerHTML = `<span>${card}</span><span style="color:#999;">(预设)</span>`; defaultList.appendChild(div); });
+            document.getElementById('defaultCardCount').innerText = defaultCards.length;
+            let userList = document.getElementById('userCardList'); userList.innerHTML = '';
+            const keyword = userCardSearchKeyword.trim().toLowerCase();
+            const filtered = chatData.userCards.map((c,idx)=>({card:c,originalIndex:idx})).filter(item=>keyword===''||item.card.toLowerCase().includes(keyword));
+            document.getElementById('userCardCount').innerText = filtered.length + ' / ' + chatData.userCards.length;
+            if (filtered.length===0) userList.innerHTML = '<div class="empty-tip">没有匹配的字卡</div>';
+            else filtered.forEach(item=>{ let div = document.createElement('div'); div.className='card-item'; div.innerHTML = `<span>${item.card}</span><span class="del-btn" onclick="delUserCard(${item.originalIndex})">删除</span>`; userList.appendChild(div); });
+        }
+        document.addEventListener('input', function(e) { if (e.target && e.target.id === 'searchUserCard') { userCardSearchKeyword = e.target.value; renderCardManagement(); } });
+
+        function renderStats() { let total = defaultCards.length+chatData.userCards.length; document.getElementById('totalCard').innerText = total; document.getElementById('totalChat').innerText = chatData.chatTotal; let sorted = Object.entries(chatData.cardUse).sort((a,b)=>b[1]-a[1]); document.getElementById('cardUseList').innerHTML = sorted.map(([k,v])=>`<div class="stats-item">${k}：${v}次</div>`).join(''); }
+        function initTheme() { document.documentElement.style.setProperty('--main-color', themeData.main); document.documentElement.style.setProperty('--bubble-me', themeData.bubbleMe); document.documentElement.style.setProperty('--bubble-you', themeData.bubbleYou); }
+        function renderTheme() {
+            let cs = ['#ffffff','#fff9e6','#fef8e8','#fcf4e0'], bms = ['#91d5ff','#69c0ff','#40a9ff','#1890ff'], bys = ['#fff','#f5f5f5','#fafafa','#f0f0f0'];
+            renderColor('mainColorList',cs,themeData.main,'main'); renderColor('bubbleMeList',bms,themeData.bubbleMe,'bubbleMe'); renderColor('bubbleYouList',bys,themeData.bubbleYou,'bubbleYou');
+            if (document.getElementById('mainColorList2')) { renderColor('mainColorList2',cs,themeData.main,'main2'); renderColor('bubbleMeList2',bms,themeData.bubbleMe,'bubbleMe2'); renderColor('bubbleYouList2',bys,themeData.bubbleYou,'bubbleYou2'); }
+        }
+        function renderColor(id,list,cur,key) { document.getElementById(id).innerHTML = list.map(c=>`<div class="color-item ${c===cur?'active':''}" style="background:${c}" onclick="changeTheme('${key}','${c}')"></div>`).join(''); }
+        function renderReplyList() { 
+            let box = document.getElementById('replyList'); 
+            let replyList = letterData.filter(l=>l.type==='reply'); 
+            box.innerHTML = replyList.length===0 ? '<div class="empty-tip">还没有梦角的回信哦～</div>' : 
+                replyList.map((l,i)=>`<div class="letter-item" onclick="openLetterDetail(${letterData.indexOf(l)})"><div class="letter-to">来自：${l.from||'未知梦角'}</div><div class="letter-time">${l.time}</div><div class="letter-content">${l.content}</div></div>`).join(''); 
+        }
+        function renderAllLetter() { 
+            let box = document.getElementById('letterList'); 
+            box.innerHTML = letterData.length===0 ? '<div class="empty-tip">暂无信件</div>' : 
+                letterData.map((l,i)=>`<div class="letter-item" onclick="openLetterDetail(${i})"><div class="letter-to">${l.type==='send'?`我寄给：${l.to}`:`来自：${l.from||'未知梦角'}（梦角回信）`}</div><div class="letter-time">${l.time}</div><div class="letter-content">${l.content}</div></div>`).join(''); 
+        }
+
+        // 梦角回信相关
+        function getMultipleSmartSentences(originalContent, count = 3) {
+            let all = [...defaultCards, ...chatData.userCards];
+            if (all.length === 0) return ['嗯嗯。'];
+            let msg = originalContent.toLowerCase();
+            let candidates = all.filter(c => {
+                let low = c.toLowerCase();
+                return (msg.includes('好') && low.includes('好')) ||
+                       (msg.includes('累') && (low.includes('累') || low.includes('休息'))) ||
+                       (msg.includes('想你') && low.includes('想')) ||
+                       (msg.includes('爱') && low.includes('爱')) ||
+                       (msg.includes('天气') && (low.includes('天气') || low.includes('雨') || low.includes('冷') || low.includes('热'))) ||
+                       (msg.includes('生理期') && (low.includes('生理期') || low.includes('红糖') || low.includes('疼') || low.includes('保暖')));
+            });
+            if (candidates.length === 0) candidates = all;
+            let used = new Set();
+            let res = [];
+            for (let i = 0; i < count * 2 && res.length < count && candidates.length > 0; i++) {
+                let idx = Math.floor(Math.random() * candidates.length);
+                let s = candidates[idx];
+                if (!used.has(s)) { used.add(s); res.push(s); }
+            }
+            while (res.length < count && all.length > 0) {
+                let r = all[Math.floor(Math.random() * all.length)];
+                if (!used.has(r)) { used.add(r); res.push(r); }
+            }
+            return res;
+        }
+
+        function autoReplyFromDreamRole(to, originalContent) {
+            let coreSentences = getMultipleSmartSentences(originalContent, Math.floor(Math.random() * 3) + 2);
+            let hasPrefix = Math.random() < 0.9;
+            let hasSuffix = Math.random() < 0.9;
+            let reply = '';
+            if (hasPrefix) {
+                let prefixCount = Math.floor(Math.random() * 2) + 1;
+                for (let i = 0; i < prefixCount; i++) reply += moodPrefixes[Math.floor(Math.random() * moodPrefixes.length)] + ' ';
+            }
+            coreSentences.forEach((s, idx) => { reply += s; if (idx < coreSentences.length - 1) reply += '，'; else reply += '。'; });
+            if (hasSuffix) {
+                let suffixCount = Math.floor(Math.random() * 2) + 1;
+                for (let i = 0; i < suffixCount; i++) reply += moodSuffixes[Math.floor(Math.random() * moodSuffixes.length)];
+            }
+            let time = new Date().toLocaleString();
+            letterData.push({ type: 'reply', from: to, content: reply, time: time });
+            saveLetterData();
+            showNotification(`来自 ${to} 的回信`, () => { enterFeature('reply'); });
+        }
+
+        function replyAllUnrepliedLetters() {
+            let sentLetters = letterData.filter(l => l.type === 'send');
+            let replyLetters = letterData.filter(l => l.type === 'reply');
+            sentLetters.forEach(sent => {
+                let hasReply = replyLetters.some(r => r.from === sent.to);
+                if (!hasReply) autoReplyFromDreamRole(sent.to, sent.content);
+            });
+        }
+
+        function restoreLetterTimers() {
+            if (!chatData.letterTimers) return;
+            let now = Date.now();
+            chatData.letterTimers.forEach(item => {
+                let delay = item.replyTime - now;
+                if (delay > 0) {
+                    setTimeout(() => {
+                        autoReplyFromDreamRole(item.to, item.content);
+                        renderAllLetter();
+                        renderReplyList();
+                    }, delay);
+                }
+            });
+            chatData.letterTimers = chatData.letterTimers.filter(item => item.replyTime > now);
+            saveChatDataDebounced();
+        }
+
+        // 日历功能增强
+        function renderCalendar() {
+            const yearMonthSpan = document.getElementById('calendarYearMonth'); 
+            yearMonthSpan.innerText = `${currentCalendarYear}年 ${currentCalendarMonth+1}月`;
+            const grid = document.getElementById('calendarGrid'); 
+            grid.innerHTML = '';
+            const weekdays = ['日','一','二','三','四','五','六']; 
+            weekdays.forEach(w=>{ const div = document.createElement('div'); div.className='calendar-weekday'; div.innerText=w; grid.appendChild(div); });
+            const firstDay = new Date(currentCalendarYear, currentCalendarMonth, 1).getDay();
+            const daysInMonth = new Date(currentCalendarYear, currentCalendarMonth+1, 0).getDate();
+            for (let i=0; i<firstDay; i++) { 
+                const empty = document.createElement('div'); empty.className='calendar-day'; empty.style.background='transparent'; empty.style.cursor='default'; grid.appendChild(empty); 
+            }
+            for (let d=1; d<=daysInMonth; d++) {
+                const dateStr = `${currentCalendarYear}-${String(currentCalendarMonth+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+                const note = calendarData.find(item => item.date === dateStr);
+                const div = document.createElement('div'); 
+                div.className = 'calendar-day';
+                if (note) div.classList.add('has-note');
+                div.innerText = d;
+                div.onclick = () => selectDate(dateStr);
+                grid.appendChild(div);
+            }
+        }
+
+        function selectDate(dateStr) {
+            selectedCalendarDate = dateStr;
+            document.querySelectorAll('.calendar-day').forEach(day => day.classList.remove('selected'));
+            const grid = document.getElementById('calendarGrid');
+            const dayIndex = [...grid.children].findIndex(el => el.innerText === dateStr.split('-')[2] && !el.classList.contains('calendar-weekday'));
+            if (dayIndex >= 0) grid.children[dayIndex].classList.add('selected');
+            isEditing = false;
+            showMoodCard();
+        }
+
+        function showMoodCard() {
+            const card = document.getElementById('moodCard');
+            card.style.display = 'block';
+            const dateDisplay = document.getElementById('selectedDateDisplay');
+            const [year, month, day] = selectedCalendarDate.split('-');
+            dateDisplay.innerText = `${year}年 ${parseInt(month)}月${parseInt(day)}日`;
+
+            const record = calendarData.find(item => item.date === selectedCalendarDate) || { dreamer: '', status: '', weather: '', mood: '', thoughts: '' };
+
+            document.getElementById('dreamerDisplay').innerText = record.dreamer || '未指定梦角';
+            document.getElementById('statusDisplay').innerText = record.status || '梦角 今天还没有记录';
+            document.getElementById('weatherDisplay').innerText = record.weather || '山间清爽';
+            document.getElementById('moodDisplay').innerText = record.mood || '想你，但不说 😔';
+            document.getElementById('thoughtsDisplay').innerText = record.thoughts || '暂无';
+
+            document.getElementById('dreamerSelect').style.display = 'none';
+            document.getElementById('statusInput').style.display = 'none';
+            document.getElementById('weatherInput').style.display = 'none';
+            document.getElementById('moodInput').style.display = 'none';
+            document.getElementById('thoughtsInput').style.display = 'none';
+            document.getElementById('pickThoughtBtn').style.display = 'none';
+            document.getElementById('dreamerDisplay').style.display = 'block';
+            document.getElementById('statusDisplay').style.display = 'block';
+            document.getElementById('weatherDisplay').style.display = 'block';
+            document.getElementById('moodDisplay').style.display = 'block';
+            document.getElementById('thoughtsDisplay').style.display = 'block';
+            document.getElementById('editMoodBtn').style.display = 'block';
+            document.getElementById('saveMoodBtn').style.display = 'none';
+            document.getElementById('cancelEditBtn').style.display = 'none';
+        }
+
+        function hideMoodCard() { document.getElementById('moodCard').style.display = 'none'; }
+
+        window.enterEditMode = function() {
+            if (!selectedCalendarDate) return;
+            if (chatData.contacts.length === 0) { alert('请先添加梦角（联系人）再进行记录'); return; }
+            isEditing = true;
+            const record = calendarData.find(item => item.date === selectedCalendarDate) || { dreamer: '', status: '', weather: '', mood: '', thoughts: '' };
+
+            document.getElementById('dreamerDisplay').style.display = 'none';
+            document.getElementById('statusDisplay').style.display = 'none';
+            document.getElementById('weatherDisplay').style.display = 'none';
+            document.getElementById('moodDisplay').style.display = 'none';
+            document.getElementById('thoughtsDisplay').style.display = 'none';
+
+            const dreamerSelect = document.getElementById('dreamerSelect');
+            dreamerSelect.innerHTML = '';
+            const defaultOption = document.createElement('option');
+            defaultOption.value = '';
+            defaultOption.textContent = '-- 请选择梦角 --';
+            dreamerSelect.appendChild(defaultOption);
+            chatData.contacts.forEach(name => {
+                const option = document.createElement('option');
+                option.value = name;
+                option.textContent = name;
+                if (name === record.dreamer) option.selected = true;
+                dreamerSelect.appendChild(option);
+            });
+            dreamerSelect.style.display = 'block';
+
+            document.getElementById('statusInput').value = record.status || '';
+            document.getElementById('weatherInput').value = record.weather || '';
+            document.getElementById('moodInput').value = record.mood || '';
+            document.getElementById('thoughtsInput').value = record.thoughts || '';
+
+            document.getElementById('statusInput').style.display = 'block';
+            document.getElementById('weatherInput').style.display = 'block';
+            document.getElementById('moodInput').style.display = 'block';
+            document.getElementById('thoughtsInput').style.display = 'block';
+            document.getElementById('pickThoughtBtn').style.display = 'inline-block';
+
+            document.getElementById('editMoodBtn').style.display = 'none';
+            document.getElementById('saveMoodBtn').style.display = 'block';
+            document.getElementById('cancelEditBtn').style.display = 'block';
+        };
+
+        window.pickRandomCard = function() {
+            let allCards = [...defaultCards, ...chatData.userCards];
+            if (allCards.length === 0) { alert('字卡库为空'); return; }
+            let randomCard = allCards[Math.floor(Math.random() * allCards.length)];
+            document.getElementById('thoughtsInput').value = randomCard;
+        };
+
+        window.saveMood = function() {
+            if (!selectedCalendarDate) return;
+            const dreamer = document.getElementById('dreamerSelect').value;
+            const status = document.getElementById('statusInput').value.trim();
+            const weather = document.getElementById('weatherInput').value.trim();
+            const mood = document.getElementById('moodInput').value.trim();
+            const thoughts = document.getElementById('thoughtsInput').value.trim();
+
+            if (!dreamer) { alert('请选择一个梦角'); return; }
+
+            const index = calendarData.findIndex(item => item.date === selectedCalendarDate);
+            const newRecord = { date: selectedCalendarDate, dreamer, status, weather, mood, thoughts };
+            if (index !== -1) { calendarData[index] = newRecord; } else { calendarData.push(newRecord); }
+            saveCalendarData();
+            isEditing = false;
+            renderCalendar();
+            showMoodCard();
+        };
+
+        window.cancelEdit = function() { isEditing = false; showMoodCard(); };
+        window.prevMonth = function() { if (currentCalendarMonth===0) { currentCalendarYear--; currentCalendarMonth=11; } else currentCalendarMonth--; selectedCalendarDate = null; hideMoodCard(); renderCalendar(); };
+        window.nextMonth = function() { if (currentCalendarMonth===11) { currentCalendarYear++; currentCalendarMonth=0; } else currentCalendarMonth++; selectedCalendarDate = null; hideMoodCard(); renderCalendar(); };
+
+        // 主动来信功能
+        function renderIncomingList() {
+            const container = document.getElementById('incomingList'); if (!container) return;
+            if (incomingLetters.length===0) { container.innerHTML = '<div class="empty-tip">暂无主动来信</div>'; return; }
+            let html = '';
+            incomingLetters.forEach((letter,index) => {
+                html += `<div class="letter-item" onclick="openIncomingDetail(${index})" style="${letter.read?'':'font-weight:bold;'}"><div class="letter-to">来自：${letter.from}</div><div class="letter-time">${letter.time}</div><div class="letter-content">${letter.content}</div></div>`;
+            });
+            container.innerHTML = html;
+        }
+        window.openIncomingDetail = function(index) {
+            const letter = incomingLetters[index];
+            document.getElementById('incomingDetailTitle').innerText = `来自 ${letter.from} 的信`;
+            document.getElementById('incomingDetailTime').innerText = letter.time;
+            document.getElementById('incomingDetailContent').innerText = letter.content;
+            document.getElementById('incomingDetailModal').style.display = 'flex';
+            window.currentIncomingIndex = index;
+        };
+        window.closeIncomingDetail = function() { document.getElementById('incomingDetailModal').style.display = 'none'; };
+        window.markIncomingRead = function() {
+            if (window.currentIncomingIndex !== undefined) {
+                incomingLetters[window.currentIncomingIndex].read = true;
+                saveIncomingLetters();
+                renderIncomingList();
+                closeIncomingDetail();
+            }
+        };
+        function generateIncomingLetter() {
+            if (!userData.currentUser) return;
+            if (chatData.contacts.length === 0) return;
+            const randomIndex = Math.floor(Math.random() * chatData.contacts.length);
+            const from = chatData.contacts[randomIndex];
+            const content = generateSmartSentence('');
+            const time = new Date().toLocaleString();
+            incomingLetters.unshift({ from, content, time, read: false });
+            if (incomingLetters.length > 200) incomingLetters.pop();
+            saveIncomingLetters();
+            showNotification(`💌 来自 ${from} 的主动来信`, () => enterFeature('incoming'));
+        }
+        function startIncomingLetterTimer() {
+            if (!userData.currentUser) return;
+            if (incomingTimer) clearInterval(incomingTimer);
+            incomingTimer = setInterval(generateIncomingLetter, 30 * 60 * 1000);
+        }
+
+        // 登录/注册相关
+        function autoLogin() {
+            if (userData && userData.currentUser) {
+                document.getElementById('userInfoPanel').style.display = 'block'; document.getElementById('loginPanel').style.display = 'none';
+                document.getElementById('setName').value = userData.currentUser.name||''; document.getElementById('userAccount').value = userData.currentUser.account||''; document.getElementById('userPassword').value = ''; document.getElementById('userBirthday').value = userData.currentUser.birthday||''; document.getElementById('userAvatarImg').src = userData.currentUser.avatar||'https://via.placeholder.com/40';
+                initPage(); startAutoSend(); startIncomingLetterTimer(); restoreLetterTimers(); replyAllUnrepliedLetters(); renderHomeContactList();
+            } else {
+                document.getElementById('userInfoPanel').style.display = 'none'; document.getElementById('loginPanel').style.display = 'block'; initPage(); renderHomeContactList();
+            }
+        }
+        function findUserByIdentifier(identifier) { return userData.users.find(u=>u.account===identifier||u.email===identifier||u.phone===identifier); }
+        window.login = function() { let id=document.getElementById('loginAccount').value.trim(), pwd=document.getElementById('loginPwd').value.trim(); if (!id||!pwd) { alert('请输入账号/邮箱/手机号和密码'); return; } let user = findUserByIdentifier(id); if (user && user.pwd===pwd) { userData.currentUser=user; localStorage.setItem('xingheUser',JSON.stringify(userData)); alert('登录成功'); autoLogin(); closeModal(); } else alert('账号或密码错误'); };
+        window.register = function() { let acc=document.getElementById('regAccount').value.trim(), email=document.getElementById('regEmail').value.trim(), phone=document.getElementById('regPhone').value.trim(), pwd=document.getElementById('regPwd').value.trim(); if (!acc||!pwd) { alert('账号和密码为必填'); return; } if (userData.users.some(u=>u.account===acc)) { alert('账号已存在'); return; } if (email && userData.users.some(u=>u.email===email)) { alert('邮箱已被注册'); return; } if (phone && userData.users.some(u=>u.phone===phone)) { alert('手机号已被注册'); return; } let u = { account:acc, pwd:pwd, name:acc, avatar:'https://via.placeholder.com/40', email:email||undefined, phone:phone||undefined }; userData.users.push(u); userData.currentUser=u; localStorage.setItem('xingheUser',JSON.stringify(userData)); alert('注册成功，已自动登录'); autoLogin(); closeModal(); };
+        window.findPwd = function() { let id=document.getElementById('forgetAccount').value.trim(), newPwd=document.getElementById('newPwd').value.trim(); if (!id||!newPwd) { alert('请填写完整'); return; } let u = findUserByIdentifier(id); if (u) { u.pwd=newPwd; localStorage.setItem('xingheUser',JSON.stringify(userData)); alert('重置成功'); switchToLogin(); } else alert('账号不存在'); };
+        window.logout = function() { userData.currentUser = null; clearInterval(autoSendTimer); clearInterval(incomingTimer); localStorage.setItem('xingheUser',JSON.stringify(userData)); alert('已退出登录'); autoLogin(); closeModal(); };
+        window.showSetting = function() {
+            document.getElementById('setName').value = userData.currentUser?userData.currentUser.name:'';
+            document.getElementById('replyRate').value = chatData.setting.rate;
+            document.getElementById('replyTime').value = chatData.setting.time;
+            document.getElementById('autoSendTime').value = chatData.setting.autoSend;
+            document.getElementById('smartReplyCheck').checked = chatData.setting.smartReply;
+            document.getElementById('searchTime').value = chatData.setting.searchTime;
+            document.getElementById('settingModal').style.display = 'flex';
+            switchSettingTab(1);
+            if (userData.currentUser) { document.getElementById('userInfoPanel').style.display = 'block'; document.getElementById('loginPanel').style.display = 'none'; }
+            else { document.getElementById('userInfoPanel').style.display = 'none'; document.getElementById('loginPanel').style.display = 'block'; switchToLogin(); }
+        };
+        window.closeModal = function() { document.getElementById('settingModal').style.display = 'none'; };
+        window.saveAllSetting = function() { if (userData.currentUser) { userData.currentUser.name = document.getElementById('setName').value.trim() || userData.currentUser.name; userData.currentUser.birthday = document.getElementById('userBirthday').value; let newPwd = document.getElementById('userPassword').value.trim(); if (newPwd) userData.currentUser.pwd = newPwd; localStorage.setItem('xingheUser',JSON.stringify(userData)); } chatData.setting.rate = document.getElementById('replyRate').value; chatData.setting.time = document.getElementById('replyTime').value; chatData.setting.autoSend = document.getElementById('autoSendTime').value||0; chatData.setting.smartReply = document.getElementById('smartReplyCheck').checked; chatData.setting.searchTime = document.getElementById('searchTime').value; saveChatDataDebounced(); alert('保存成功'); autoLogin(); closeModal(); };
+        function initPage() { initTheme(); document.getElementById('myAvatarImg').src = avatars.me; document.getElementById('yourAvatarImg').src = avatars.you; }
+        function switchSettingTab(num) { currentSettingTab=num; document.querySelectorAll('.setting-tab-btn').forEach((b,i)=>b.classList.toggle('active',i+1===num)); document.querySelectorAll('.setting-panel').forEach((p,i)=>p.classList.toggle('active',i+1===num)); if (num===4) updateStorageInfo(); }
+        function switchToReg() { document.getElementById('loginSubPanel').style.display='none'; document.getElementById('regSubPanel').style.display='block'; document.getElementById('forgetSubPanel').style.display='none'; }
+        function switchToLogin() { document.getElementById('loginSubPanel').style.display='block'; document.getElementById('regSubPanel').style.display='none'; document.getElementById('forgetSubPanel').style.display='none'; }
+        function switchToForget() { document.getElementById('loginSubPanel').style.display='none'; document.getElementById('regSubPanel').style.display='none'; document.getElementById('forgetSubPanel').style.display='block'; }
+
+        // 塔罗牌功能增强
+        window.drawTarotCards = function() {
+            let question = document.getElementById('tarotQuestion').value.trim();
+            if (!question) { alert('请先输入你的问题'); return; }
+            document.getElementById('tarotLoading').style.display = 'block';
+            document.getElementById('tarotResult').style.display = 'none';
+            let delay = Math.random() * 2000 + 3000;
+            setTimeout(() => {
+                let shuffled = [...tarotDeck];
+                for (let i = shuffled.length - 1; i > 0; i--) {
+                    const j = Math.floor(Math.random() * (i + 1));
+                    [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+                }
+                let selected = shuffled.slice(0, 3);
+                let cardsWithOrientation = selected.map(c => ({
+                    ...c,
+                    isReversed: Math.random() < 0.3,
+                }));
+                cardsWithOrientation.forEach(c => c.displayName = c.name + (c.isReversed ? ' (逆位)' : ' (正位)'));
+
+                document.getElementById('card1').innerHTML = `<h4>${cardsWithOrientation[0].displayName}</h4><div class="number">编号：${cardsWithOrientation[0].number}</div><div class="meaning">含义：${cardsWithOrientation[0].isReversed ? cardsWithOrientation[0].reversed.meaning : cardsWithOrientation[0].upright.meaning}</div><div class="message" style="margin-top:8px; font-style:italic;">传讯：${cardsWithOrientation[0].isReversed ? cardsWithOrientation[0].reversed.message : cardsWithOrientation[0].upright.message}</div>`;
+                document.getElementById('card2').innerHTML = `<h4>${cardsWithOrientation[1].displayName}</h4><div class="number">编号：${cardsWithOrientation[1].number}</div><div class="meaning">含义：${cardsWithOrientation[1].isReversed ? cardsWithOrientation[1].reversed.meaning : cardsWithOrientation[1].upright.meaning}</div><div class="message" style="margin-top:8px; font-style:italic;">传讯：${cardsWithOrientation[1].isReversed ? cardsWithOrientation[1].reversed.message : cardsWithOrientation[1].upright.message}</div>`;
+                document.getElementById('card3').innerHTML = `<h4>${cardsWithOrientation[2].displayName}</h4><div class="number">编号：${cardsWithOrientation[2].number}</div><div class="meaning">含义：${cardsWithOrientation[2].isReversed ? cardsWithOrientation[2].reversed.meaning : cardsWithOrientation[2].upright.meaning}</div><div class="message" style="margin-top:8px; font-style:italic;">传讯：${cardsWithOrientation[2].isReversed ? cardsWithOrientation[2].reversed.message : cardsWithOrientation[2].upright.message}</div>`;
+
+                let combined = `<strong>三张牌结合起来看：</strong><br>`;
+                let reversedCount = cardsWithOrientation.filter(c => c.isReversed).length;
+                if (reversedCount >= 2) combined += '逆位牌较多，说明他现在内心有些矛盾和不安。';
+                else combined += '整体来看，他的状态是积极的。';
+
+                let hasEmotion = cardsWithOrientation.some(c => c.name.includes('恋人') || c.name.includes('圣杯') || c.name.includes('女皇') || c.name.includes('世界'));
+                let hasConflict = cardsWithOrientation.some(c => c.name.includes('高塔') || c.name.includes('宝剑') || c.name.includes('死神') || c.name.includes('恶魔'));
+                let hasThought = cardsWithOrientation.some(c => c.name.includes('隐士') || c.name.includes('女祭司') || c.name.includes('月亮'));
+
+                let message = '';
+                if (hasEmotion) message += '他内心充满情感，对你很在意。';
+                if (hasConflict) message += '他可能正面临一些困扰或压力。';
+                if (hasThought) message += '他最近思考很多，可能需要一些独处时间。';
+                if (!hasEmotion && !hasConflict && !hasThought) message += '他的状态平稳，没有特别强烈的波动。';
+
+                let cardMessages = cardsWithOrientation.map(c => c.isReversed ? c.reversed.message : c.upright.message);
+                let combinedMessage = cardMessages.join('，') + '。';
+
+                combined += `<br><br>他想对你说：<br>“${combinedMessage}”<br><br>`;
+                combined += `<strong>结论：</strong><br>${message} 建议你多关注他的情绪变化，给彼此一些理解和空间。`;
+
+                document.getElementById('summaryText').innerHTML = combined;
+
+                document.getElementById('tarotLoading').style.display = 'none';
+                document.getElementById('tarotResult').style.display = 'block';
+                document.getElementById('statusResult').style.display = 'none';
+                currentTarotResult = {
+                    timestamp: new Date().toLocaleString(),
+                    question: question,
+                    cards: cardsWithOrientation,
+                    message: combined,
+                    status: ''
+                };
+                tarotHistory.unshift(currentTarotResult);
+                saveTarotHistory();
+            }, delay);
+        };
+
+        window.showTarotStatus = function() {
+            if (!currentTarotResult) { alert('请先抽牌'); return; }
+            let cards = currentTarotResult.cards;
+            let status = '根据牌面，他内心深处的想法是：';
+            if (cards.some(c => c.name.includes('恋人') || c.name.includes('圣杯'))) status += '他非常珍惜你们之间的关系，希望能更进一步。';
+            else if (cards.some(c => c.name.includes('隐士') || c.name.includes('月亮'))) status += '他现在需要一些独处的时间来思考，但并不是想疏远你。';
+            else if (cards.some(c => c.name.includes('高塔') || c.name.includes('死神'))) status += '他正经历一些转变，内心有些不安，需要你的支持。';
+            else if (cards.some(c => c.name.includes('太阳') || c.name.includes('星星'))) status += '他对未来充满希望，希望能和你一起创造美好回忆。';
+            else if (cards.some(c => c.name.includes('宝剑') || c.name.includes('恶魔'))) status += '他可能有些难以言说的烦恼，需要你主动关心。';
+            else status += '他正在思考如何更好地与你相处，内心是真诚的。';
+            status += ' 结合牌面，他希望你能够多一点耐心，多一份信任。';
+            document.getElementById('statusResult').innerText = status;
+            document.getElementById('statusResult').style.display = 'block';
+            if (currentTarotResult) {
+                currentTarotResult.status = status;
+                let idx = tarotHistory.findIndex(h => h.timestamp === currentTarotResult.timestamp);
+                if (idx !== -1) { tarotHistory[idx] = currentTarotResult; saveTarotHistory(); }
+            }
+        };
+
+        window.showTarotHistory = function() {
+            let historyList = document.getElementById('tarotHistoryList');
+            historyList.innerHTML = '';
+            if (tarotHistory.length === 0) historyList.innerHTML = '<div class="empty-tip">暂无历史记录</div>';
+            else tarotHistory.forEach((item, index) => {
+                let div = document.createElement('div');
+                div.className = 'history-item';
+                div.onclick = () => loadTarotHistoryItem(index);
+                div.innerHTML = `<div class="time">${item.timestamp}</div><div class="question">问题：${item.question.substring(0,30)}${item.question.length>30?'...':''}</div><div class="cards">牌：${item.cards.map(c=>c.displayName).join('、')}</div>`;
+                historyList.appendChild(div);
+            });
+            document.getElementById('tarotHistoryModal').style.display = 'flex';
+        };
+        window.closeTarotHistory = function() { document.getElementById('tarotHistoryModal').style.display = 'none'; };
+        function loadTarotHistoryItem(index) {
+            let item = tarotHistory[index];
+            if (!item) return;
+            document.getElementById('card1').innerHTML = `<h4>${item.cards[0].displayName}</h4><div class="number">编号：${item.cards[0].number}</div><div class="meaning">含义：${item.cards[0].isReversed ? item.cards[0].reversed.meaning : item.cards[0].upright.meaning}</div><div class="message" style="margin-top:8px; font-style:italic;">传讯：${item.cards[0].isReversed ? item.cards[0].reversed.message : item.cards[0].upright.message}</div>`;
+            document.getElementById('card2').innerHTML = `<h4>${item.cards[1].displayName}</h4><div class="number">编号：${item.cards[1].number}</div><div class="meaning">含义：${item.cards[1].isReversed ? item.cards[1].reversed.meaning : item.cards[1].upright.meaning}</div><div class="message" style="margin-top:8px; font-style:italic;">传讯：${item.cards[1].isReversed ? item.cards[1].reversed.message : item.cards[1].upright.message}</div>`;
+            document.getElementById('card3').innerHTML = `<h4>${item.cards[2].displayName}</h4><div class="number">编号：${item.cards[2].number}</div><div class="meaning">含义：${item.cards[2].isReversed ? item.cards[2].reversed.meaning : item.cards[2].upright.meaning}</div><div class="message" style="margin-top:8px; font-style:italic;">传讯：${item.cards[2].isReversed ? item.cards[2].reversed.message : item.cards[2].upright.message}</div>`;
+            document.getElementById('summaryText').innerHTML = item.message;
+            if (item.status) { document.getElementById('statusResult').innerText = item.status; document.getElementById('statusResult').style.display = 'block'; } else document.getElementById('statusResult').style.display = 'none';
+            document.getElementById('tarotResult').style.display = 'block';
+            document.getElementById('tarotLoading').style.display = 'none';
+            closeTarotHistory();
+            currentTarotResult = item;
+        }
+
+        // 新增缺失函数
+        window.changeTheme = function(key, color) {
+            if (key.endsWith('2')) key = key.slice(0, -1);
+            themeData[key] = color;
+            saveThemeData();
+            initTheme();
+            renderTheme();
+        };
+        window.setBgImage = function() {
+            let ipt = document.createElement('input');
+            ipt.type = 'file';
+            ipt.accept = 'image/*';
+            ipt.onchange = e => {
+                let file = e.target.files[0];
+                if (file) {
+                    let reader = new FileReader();
+                    reader.onload = res => {
+                        themeData.bgImg = res.target.result;
+                        saveThemeData();
+                        if (currentTab === 'chat') applyChatPageBackground();
+                        alert('背景图片已设置');
+                    };
+                    reader.readAsDataURL(file);
+                }
+            };
+            ipt.click();
+        };
+        window.clearBg = function() {
+            themeData.bgImg = '';
+            saveThemeData();
+            if (currentTab === 'chat') applyChatPageBackground();
+            alert('背景已清除');
+        };
+        window.exportAllData = function() {
+            let data = {
+                user: userData,
+                chat: chatData,
+                theme: themeData,
+                avatars: avatars,
+                emojis: emojiData,
+                letters: letterData,
+                tarotHistory: tarotHistory,
+                calendar: calendarData,
+                incoming: incomingLetters
+            };
+            let json = JSON.stringify(data, null, 2);
+            let blob = new Blob([json], { type: 'application/json' });
+            let url = URL.createObjectURL(blob);
+            let a = document.createElement('a');
+            a.href = url;
+            a.download = 'xinghe_backup_' + new Date().toISOString().slice(0,10) + '.json';
+            a.click();
+            URL.revokeObjectURL(url);
+        };
+        window.importAllData = function(event) {
+            let file = event.target.files[0];
+            if (!file) return;
+            let reader = new FileReader();
+            reader.onload = e => {
+                try {
+                    let data = JSON.parse(e.target.result);
+                    if (data.user) { userData = data.user; localStorage.setItem('xingheUser', JSON.stringify(userData)); }
+                    if (data.chat) { chatData = data.chat; saveChatDataDebounced(); }
+                    if (data.theme) { themeData = data.theme; saveThemeData(); }
+                    if (data.avatars) { avatars = data.avatars; saveAvatars(); }
+                    if (data.emojis) { emojiData = data.emojis; saveEmojiData(); }
+                    if (data.letters) { letterData = data.letters; saveLetterData(); }
+                    if (data.tarotHistory) { tarotHistory = data.tarotHistory; saveTarotHistory(); }
+                    if (data.calendar) { calendarData = data.calendar; saveCalendarData(); }
+                    if (data.incoming) { incomingLetters = data.incoming; saveIncomingLetters(); }
+                    alert('数据导入成功，即将刷新页面');
+                    location.reload();
+                } catch (err) { alert('导入失败：无效的JSON文件'); }
+            };
+            reader.readAsText(file);
+        };
+        window.clearStats = function() {
+            if (!confirm('确定要清零所有统计次数吗？')) return;
+            chatData.cardUse = {};
+            chatData.chatTotal = 0;
+            saveChatDataDebounced();
+            if (currentTab === 'stats') renderStats();
+            alert('统计次数已清零');
+        };
+
+        // 初始化
+        document.addEventListener('DOMContentLoaded', function() {
+            initData();
+            const chatMain = document.getElementById('chatMain');
+            if (chatMain) {
+                chatMain.addEventListener('scroll', handleChatScroll);
+                chatMain.addEventListener('contextmenu', function(e) {
+                    e.preventDefault();
+                    let target = e.target.closest('.msg-item');
+                    if (!target) return;
+                    let msgId = target.dataset.msgid;
+                    let msg = chatData.msgMap[chatData.currentContact].find(m=>m.id===msgId);
+                    if (!msg) return;
+                    let isMe = msg.type==='me';
+                    let now = Date.now();
+                    let canRecall = isMe && (now - (msg.timestamp||now) < 120000);
+                    let menu = document.getElementById('messageActionMenu');
+                    let html = '';
+                    if (canRecall) html += `<div class="message-action-item" onclick="recallMessage('${msgId}')">撤销</div>`;
+                    if (isMe) html += `<div class="message-action-item delete" onclick="deleteMessage('${msgId}')">删除</div>`;
+                    html += `<div class="message-action-item" onclick="quoteMessage('${msgId}')">引用</div>`;
+                    menu.innerHTML = html;
+                    menu.style.visibility = 'hidden';
+                    menu.classList.add('active');
+                    let menuWidth = menu.offsetWidth;
+                    let menuHeight = menu.offsetHeight;
+                    menu.classList.remove('active');
+                    menu.style.visibility = '';
+                    let x = e.pageX, y = e.pageY;
+                    if (x + menuWidth > window.innerWidth) x = window.innerWidth - menuWidth - 5;
+                    if (y + menuHeight > window.innerHeight) y = window.innerHeight - menuHeight - 5;
+                    menu.style.left = x + 'px';
+                    menu.style.top = y + 'px';
+                    menu.classList.add('active');
+                });
+            }
+            document.addEventListener('click', function(e) {
+                let menu = document.getElementById('menuDropdown'); let menuBtn = document.querySelector('.menu-btn'); if (!menu.contains(e.target) && e.target !== menuBtn) menu.classList.remove('active');
+                let contactDropdown = document.getElementById('contactDropdown'); let contactActionMenu = document.getElementById('contactActionMenu'); let contactSelector = document.querySelector('.contact-selector'); let contactMenuBtn = document.querySelector('.contact-menu-btn'); let emojiPanel = document.getElementById('emojiPanel'); let emojiBtn = document.querySelector('.emoji-btn'); let messageMenu = document.getElementById('messageActionMenu');
+                if (!contactDropdown.contains(e.target) && e.target !== contactSelector) contactDropdown.classList.remove('active');
+                if (!contactActionMenu.contains(e.target) && e.target !== contactMenuBtn) contactActionMenu.classList.remove('active');
+                if (!emojiPanel.contains(e.target) && e.target !== emojiBtn) emojiPanel.classList.remove('active');
+                if (!messageMenu.contains(e.target)) messageMenu.classList.remove('active');
+            });
+            document.getElementById('homeContainer').style.display = 'flex';
+            document.getElementById('featurePages').style.display = 'none';
+            autoLogin();
+            if (themeData.mode === 'night') {
+                document.body.classList.add('night-mode');
+                document.getElementById('dayModeBtn').style.backgroundColor = '#40a9ff';
+                document.getElementById('nightModeBtn').style.backgroundColor = '#1890ff';
+                if (document.getElementById('dayModeBtn2')) {
+                    document.getElementById('dayModeBtn2').style.backgroundColor = '#40a9ff';
+                    document.getElementById('nightModeBtn2').style.backgroundColor = '#1890ff';
+                }
+            } else {
+                document.getElementById('dayModeBtn').style.backgroundColor = '#1890ff';
+                document.getElementById('nightModeBtn').style.backgroundColor = '#40a9ff';
+                if (document.getElementById('dayModeBtn2')) {
+                    document.getElementById('dayModeBtn2').style.backgroundColor = '#1890ff';
+                    document.getElementById('nightModeBtn2').style.backgroundColor = '#40a9ff';
+                }
+            }
+            renderHomeContactList();
+        });
+    </script>
+</body>
+</html>
